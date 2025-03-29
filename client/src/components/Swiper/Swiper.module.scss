@@ -1,0 +1,39 @@
+.Container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: 1622px;
+  margin: 0 auto 32px auto;
+}
+
+.Container .Item {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  text-align: left;
+  padding: 0 16px;
+  height: 100%;
+}
+.Item h2 {
+  font-size: 20px;
+  font-weight: bold;
+}
+.Item .Author {
+  color: #7a7a7a;
+  padding: 10px 0;
+}
+
+.Item .Price {
+  font-size: 18px;
+}
+.Item button {
+  background-color: rgb(17, 153, 85);
+  padding: 12px 24px;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  width: 50%;
+  margin-top: 4px;
+}
+.Item button:hover {
+  opacity: 0.6;
+}

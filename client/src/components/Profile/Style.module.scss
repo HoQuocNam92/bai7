@@ -1,0 +1,118 @@
+.Container {
+  background-color: #e1e1e1;
+}
+.Container span {
+  padding: 0;
+}
+.Content {
+  width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  padding: 24px 0;
+  grid-template-columns: 20% 80%;
+}
+
+.Logo {
+  display: flex;
+  align-items: center;
+  padding: 15px 0;
+}
+.Logo img {
+  width: 28px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+.Logo h2 {
+  font-weight: bold;
+  font-size: 18px;
+}
+.Menu {
+  margin-top: 27px;
+}
+.Menu li {
+  margin-bottom: 15px;
+}
+.Menu li i {
+  margin-right: 12px;
+}
+
+.SubMenu {
+  padding-left: 34px;
+  margin-top: 15px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+// MainContent
+.MainContent {
+  background-color: #fff;
+  padding: 0 30px 10px 30px;
+}
+.MainContent .Header {
+  padding: 18px 0;
+}
+.MainContent .Header {
+  border-bottom: 1px solid rgb(239, 239, 239);
+}
+.Header h2 {
+  font-size: 20px;
+  font-weight: bold;
+}
+.FormProfile {
+  padding-top: 30px;
+  display: grid;
+  grid-template-columns: 70% 30%;
+}
+input {
+  border: 1px solid rgba(0, 0, 0, 0.8);
+}
+.InfoProfile .Title {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 16px;
+  width: 152px;
+}
+
+.info {
+  display: flex;
+  padding-bottom: 30px;
+}
+
+.Gender {
+  display: flex;
+}
+.Gender input {
+  margin: 0 4px;
+}
+.Gender label {
+  padding: 0 4px;
+}
+
+.InfoProfile button {
+  padding: 10px 20px;
+  background-color: rgb(238, 77, 45);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+
+  border-radius: 4px;
+}
+.InfoProfile button:hover {
+  background-color: rgb(238, 77, 45, 0.8);
+}
+
+.ImageProfile h1 {
+  margin: 0;
+}
+.ImageProfile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0;
+}
+.ImageProfile img {
+  width: 200px;
+}
+.ImageProfile input {
+  margin-top: 16px;
+}

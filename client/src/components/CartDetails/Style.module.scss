@@ -1,0 +1,173 @@
+@import url("https://fonts.cdnfonts.com/css/gt-america-trial");
+
+.Container {
+  margin: 48px 0;
+  width: 1600px;
+  margin: auto;
+  font-family: "GT America Trial", sans-serif;
+}
+.Container hr {
+  padding: 2px !important;
+}
+.Images {
+  background: url("/images/bannerCart.jpg") center / cover no-repeat;
+  height: 300px;
+  margin-bottom: 14px;
+}
+.Content {
+  display: grid;
+  grid-template-columns: 60% 40%;
+  margin: 8px 0 16px 0;
+}
+.Title {
+  font-size: 54px;
+  font-weight: 500;
+  color: rgb(37, 50, 55);
+  margin: 0;
+}
+
+.TableLeft {
+  border: 1px solid #ccc;
+  width: 100%;
+  table-layout: fixed;
+}
+.CLoseBtn {
+  position: relative;
+}
+.TableLeft i {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+}
+.TableLeft input {
+  width: 40px;
+  text-align: center;
+}
+.TableLeft i:hover {
+  opacity: 0.6;
+}
+.TableLeft th {
+  padding: 10px;
+  width: 20%;
+  border-bottom: 1px solid #ccc;
+  background-color: #f2f2f2;
+}
+
+.TableLeft td {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+  width: 20%;
+}
+.TableLeft img {
+  width: 100px;
+  margin: auto;
+}
+
+.TableRight tr {
+  margin: 4px 0;
+}
+
+.Container span {
+  padding: 0;
+}
+
+.OrderDetails {
+  font-weight: bold;
+  padding-left: 50px;
+}
+
+.Box {
+  display: grid;
+  grid-template-columns: 20% 80%;
+  margin: 16px 0;
+}
+
+.OrderDetails button {
+  padding: 12px 24px;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  background-color: rgb(17, 153, 85);
+  margin-bottom: 18px;
+}
+
+.Options span {
+  padding: 8px 0;
+  display: block;
+  text-decoration: none;
+  font-weight: 400;
+}
+.Options input {
+  margin-right: 4px;
+}
+.Subtotal {
+  font-weight: 400;
+}
+.OrderDetails button:hover {
+  opacity: 0.6;
+}
+
+.Voucher {
+  background-color: antiquewhite;
+  height: 80px;
+  width: 100%;
+}
+.Voucher td {
+  text-align: left;
+}
+.Voucher input {
+  background: #fff;
+  padding: 12px 0;
+  width: 100%;
+}
+.Voucher input::placeholder {
+  padding-left: 8px;
+}
+
+.Voucher button {
+  background-color: rgb(17, 153, 85);
+  color: #fff;
+  cursor: pointer;
+  border: none;
+  padding: 12px 24px;
+}
+.Voucher button:hover {
+  opacity: 0.6;
+}
+.ReturnToShop {
+  margin: 16px 0;
+}
+
+.ReturnToShop a {
+  display: inline-block;
+  position: relative;
+}
+
+.ReturnToShop a::after {
+  content: "";
+  position: absolute;
+  top: 24px;
+  width: 100%;
+  height: 2px;
+  background-color: #000;
+}
+.ReturnToShop .Return {
+  font-size: 19px;
+  color: #1d1b1b;
+  cursor: pointer;
+  display: flex;
+}
+.Return span {
+  text-decoration: none !important;
+}
+.ReturnToShop i {
+  margin-right: 8px;
+}
+
+.ReturnToShop a:hover {
+  opacity: 0.6;
+}
+.ReturnToShop a::after:hover {
+  opacity: 0.6;
+}

@@ -1,0 +1,110 @@
+.Container {
+  margin-top: 40px;
+}
+.Section {
+  padding: 0 80px;
+
+  display: flex;
+}
+.ImageProduct {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+}
+.ImageProduct img {
+  width: 750px;
+  height: 750px;
+}
+.Text {
+  width: 50%;
+}
+.TextName {
+  font-size: 54px;
+  color: rgb(37, 50, 55);
+  font-weight: bold;
+}
+.Author {
+  font-size: 24px;
+  color: rgb(84, 89, 95);
+  font-weight: bold;
+  padding: 16px 0;
+}
+.Meta {
+  font-size: 18px;
+  color: rgb(84, 89, 95);
+  font-weight: bold;
+  padding: 16px 0;
+}
+.Description {
+  font-size: 18px;
+  opacity: 0.7;
+  padding: 16px 0;
+  line-height: 1.5;
+}
+.Price {
+  font-size: 24px;
+  font-weight: 600;
+  padding: 16px 0;
+}
+.Btn {
+  display: flex;
+}
+.Btn input {
+  padding: 13px;
+  width: 100px;
+  margin-right: 20px;
+  border: 1px solid #000;
+}
+.AddToCart {
+  background-color: rgb(5, 148, 77);
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  width: 100%;
+}
+.AddToCart:hover {
+  background-color: rgb(84, 204, 140);
+}
+
+#ProductList {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-top: 28px;
+}
+.Product {
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid #e0e0e0;
+  background-color: #fff;
+  border-radius: 8px;
+  height: 100%;
+}
+.ProductImage {
+  position: relative;
+}
+
+.ProductImage img {
+  width: 100%;
+  height: auto;
+}
+
+.ProductTitle {
+  color: rgb(59, 61, 66);
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.ProductAuthor {
+  color: rgb(122, 122, 122);
+  font-size: 16px;
+  padding: 10px 0;
+}
+
+.ProductPrice {
+  color: rgb(59, 61, 66);
+  font-size: 22px;
+}

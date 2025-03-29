@@ -1,0 +1,48 @@
+ .container {
+     position: relative;
+ }
+
+ .banner_image {
+     background-repeat: no-repeat;
+     background-position: 50% 50%;
+     object-fit: cover;
+     width: 100%;
+     height: 90vh;
+     filter: grayscale(30%)
+ }
+
+ .text_content {
+     position: absolute;
+     bottom: 0;
+     color: #fff;
+     font-family: "Orpheus Pro";
+     margin-left: 60px;
+     margin-bottom: 60px;
+ }
+
+ .title {
+     font-size: 25.6px;
+     text-transform: uppercase;
+     margin-left: 4px;
+
+ }
+
+ .title_sub {
+     font-size: 64px;
+     line-height: 76px;
+
+ }
+
+ .link {
+     font-family: "GT America", sans-serif;
+     text-transform: uppercase;
+     font-weight: bold;
+     text-decoration: underline;
+     margin-left: 4px;
+     margin-top: 8px;
+ }
+
+ .link a {
+     margin-right: 16px;
+     display: inline-block;
+ }

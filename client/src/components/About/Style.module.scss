@@ -1,0 +1,54 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+.Container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  font-family: "Roboto", sans-serif;
+  align-items: stretch;
+  padding: 0 50px;
+  width: 1440px;
+  margin: 80px auto;
+  max-width: 100%;
+}
+.Images {
+  background-image: url("/images/about.jpg");
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  max-width: 100%;
+}
+
+.Content {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.Text {
+  height: 300px;
+}
+.Title {
+  font-size: 54px;
+  color: rgb(37, 50, 55);
+  font-weight: bold;
+}
+
+.Welcome {
+  font-size: 24px;
+  font-weight: bold;
+  color: rgb(37, 50, 55);
+  margin: 15px 0;
+}
+.Description {
+  margin-bottom: 16px;
+}
+
+hr {
+  color: rgb(59, 61, 66);
+  padding: 15px 0;
+}
+
+.BtnTell {
+  font-weight: bold;
+  text-decoration: underline;
+}

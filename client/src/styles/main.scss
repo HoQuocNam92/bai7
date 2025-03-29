@@ -1,0 +1,42 @@
+@import "./__global.module.scss";
+@import "./__mixin.module.scss";
+@import "./__varible.module.scss";
+@import "tailwindcss";
+
+.noti-nav {
+  position: absolute;
+  top: 100%;
+  background-color: #000;
+  border-radius: 4px;
+  display: none;
+}
+.noti-nav::after {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-right: 10px solid transparent;
+  border-left: 10px solid transparent;
+  border-bottom: 10px solid #000;
+}
+
+.user:hover .noti-nav {
+  display: block;
+}
+.noti-nav .option {
+  color: #fff !important;
+  display: block !important;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+.noti-nav .option:hover {
+  background-color: #fff;
+  color: #000 !important;
+}
+
+.css-wa11gq-MuiBadge-root .MuiBadge-badge {
+  right: 0 !important;
+  top: 0 !important;
+  padding: 0 !important;
+}

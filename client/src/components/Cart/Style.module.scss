@@ -1,0 +1,87 @@
+@import url("https://fonts.cdnfonts.com/css/gt-america-trial");
+.Container {
+  position: absolute;
+  width: 415px;
+  background-color: #fff;
+  color: #000;
+  right: 80%;
+  top: 130%;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 4px;
+  font-family: "GT America Trial", sans-serif;
+  z-index: 999;
+}
+.Notfound {
+  font-size: 18px;
+  font-weight: 400;
+  text-align: left;
+}
+.Cart h4 {
+  font-size: 19px;
+  text-align: left;
+  margin: 15px 0;
+  font-weight: 400;
+}
+
+.Content {
+  display: flex;
+}
+.Content img {
+  width: 118px;
+  height: 118px;
+  margin-right: 20px;
+  margin-bottom: 10px;
+}
+.Text {
+  width: 60%;
+  margin-top: 6px;
+}
+.Name {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  text-align: justify;
+}
+.Total {
+  font-size: 16px;
+  margin-bottom: 10px;
+  font-weight: 400;
+  text-align: justify;
+}
+.Content .CloseBtn {
+  position: relative;
+}
+.CloseBtn i {
+  position: absolute;
+  top: 6px;
+}
+.CloseBtn i:hover {
+  opacity: 0.6;
+}
+.Subtotal {
+  text-align: left;
+  font-size: 18px;
+  font-weight: 400;
+}
+.CheckOut {
+  background-color: rgb(15, 184, 99);
+  color: #fff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  width: 100%;
+  font-size: 16px;
+  margin: 16px 0;
+  cursor: pointer;
+}
+.CheckOut:hover {
+  opacity: 0.6;
+}
+.ViewCart {
+  color: rgb(15, 184, 99);
+  font-size: 16px;
+}
+.ViewCart:hover {
+  opacity: 0.6;
+}

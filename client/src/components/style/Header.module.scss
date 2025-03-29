@@ -1,0 +1,115 @@
+.Container {
+  background-color: rgb(243, 246, 247);
+  position: "relative";
+  padding: 15px 50px;
+}
+.Navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 28px;
+}
+.Logo {
+  cursor: pointer;
+}
+.Logo img {
+  width: 200px;
+}
+
+.Menu .Item {
+  display: flex;
+  justify-content: center;
+}
+.Item a {
+  display: block;
+  font-size: 18px;
+  padding: 0 4px;
+  text-align: center;
+}
+.Item a:hover {
+  font-weight: 600;
+  text-decoration: underline;
+}
+.Item a::before {
+  content: attr(title);
+  display: block;
+  font-weight: 600;
+  height: 0;
+  overflow: hidden;
+}
+
+.Search input {
+  background-color: #fff;
+  padding: 8px;
+  width: 500px;
+  border: 1px solid #000;
+  margin: 0 auto;
+  display: block;
+}
+.Icons {
+  display: flex;
+  position: relative;
+}
+.Icons i {
+  padding: 0 8px;
+  cursor: pointer;
+}
+.User {
+  position: relative;
+}
+.User span {
+  padding: 0;
+  cursor: pointer;
+}
+.User:hover .ModalUser {
+  display: block;
+}
+.ModalUser {
+  position: absolute;
+  background-color: #fff;
+  box-sizing: 0px 0px 16px rgba(255, 255, 255, 0.8);
+  border-radius: 2px;
+  z-index: 9999;
+  top: 30px;
+  left: 10px;
+  display: none;
+}
+
+.ModalUser::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -10px;
+  transform: translateX(-50%);
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #000;
+}
+.ModalUser::after {
+  content: "";
+  position: absolute;
+  top: -14px;
+  width: 116px;
+  height: 14px;
+}
+
+.ModalUser p {
+  padding: 8px;
+  width: 90px;
+  cursor: pointer;
+  text-align: center;
+}
+.ModalUser p:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+.Quantity {
+  position: absolute;
+  top: -20px;
+  left: 20px;
+  z-index: 99999 !important;
+  padding: 2px;
+  border-radius: 100%;
+  background-color: greenyellow;
+}

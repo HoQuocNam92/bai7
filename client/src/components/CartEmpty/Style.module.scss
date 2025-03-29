@@ -1,0 +1,69 @@
+.Container {
+  position: absolute;
+  width: 415px;
+  background-color: #fff;
+  color: #000;
+  right: 50%;
+  top: 130%;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 4px;
+}
+.Cart h4 {
+  font-size: 19px;
+  text-align: left;
+  margin: 15px 0;
+}
+
+.Content {
+  display: flex;
+  gap: 10px;
+}
+.Content img {
+  width: 118px;
+  height: 118px;
+  margin-right: 20px;
+  margin-bottom: 10px;
+}
+.Name {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.Total {
+  font-size: 16px;
+  margin-bottom: 10px;
+  font-weight: 400;
+}
+.Content button {
+  position: absolute;
+  right: 18px;
+  top: 47px;
+}
+.Content i {
+  font-size: 14px;
+}
+
+.Details {
+}
+
+.Subtotal {
+  text-align: left;
+  font-size: 18px;
+}
+.CheckOut {
+  background-color: rgb(92, 215, 153);
+  color: #fff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  width: 100%;
+  font-size: 16px;
+
+  margin: 16px 0;
+}
+
+.ViewCart {
+  color: rgb(92, 215, 153);
+  font-size: 16px;
+}

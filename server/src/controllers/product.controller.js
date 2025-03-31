@@ -37,6 +37,40 @@ const productController = {
       res.status(500).json({ message: err.message });
     }
   },
+  uploadImage: async (req, res) => {
+    try {
+      if (!req.files || req.files.length === 0) {
+        return res.status(400).json({ message: "No file uploaded" });
+      }
+
+      const uploadedImages = req.files.map((file) => ({
+        imageUrl: file.path,
+        publicId: file.filename,
+      }));
+
+      for (let i = 0; i < uploadedImages.length; i++) {
+        ProductService.Upload(uploadedImages[i]);
+      }
+      return res.json({
+        message: "Images uploaded successfully",
+      });
+    } catch (error) {
+      res.status(400).json({ error: error.name, message: error.message });
+    }
+  },
+  removeImage: async (req, res) => {
+    try {
+      if (!req.params.id) {
+        res.json("Not found ID");
+      }
+      await ProductService.RemoveImage(req.params.id);
+      return res.json({
+        message: "Images remove successfully",
+      });
+    } catch (error) {
+      res.status(400).json({ error: error.name, message: error.message });
+    }
+  },
 };
 
 module.exports = productController;

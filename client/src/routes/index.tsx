@@ -12,7 +12,7 @@ const routers = [
   },
   {
     path: "/login",
-    component: lazy(() => import("@components/Login/Login")),
+    component: lazy(() => import("@components/login/Login")),
     hideLayout: true, // Đặt thuộc tính ở đây
   },
   {

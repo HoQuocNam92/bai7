@@ -9,7 +9,7 @@ const MainLayout = () => {
             <MyHeader />
             <Outlet />
             <MyFooter />
-        </>
+        </> 
     );
 };
 

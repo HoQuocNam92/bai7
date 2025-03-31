@@ -8,11 +8,14 @@ import {
   Link,
   TextField,
   Button,
+  Badge,
+  BadgeProps,
+  IconButton,
+  styled,
 } from "@mui/material";
-import {
-  ShoppingBag as ShoppingBagIcon,
-  Search as SearchIcon,
-} from "@mui/icons-material";
+import { Search as SearchIcon } from "@mui/icons-material";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useAuth } from "@context/AuthContext";
 import { useEffect, useState } from "react";
@@ -36,6 +39,13 @@ interface Product {
   price: number;
   description: string;
 }
+const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
+  "& .MuiBadge-badge": {
+    right: -3,
+    top: 13,
+    padding: "0 4px",
+  },
+}));
 const Navbar = () => {
   const { loginStatus, resultSearch } = useAuth();
   const [search, setSearch] = useState("");
@@ -159,11 +169,13 @@ const Navbar = () => {
                   </ListItem>
                 </Box>
               )}
-
+              <IconButton aria-label="cart">
+                <StyledBadge badgeContent={4} color="secondary">
+                  <ShoppingCartIcon />
+                </StyledBadge>
+              </IconButton>
               <ListItem>
-                <Link color="#000" href="https://mui.com">
-                  <ShoppingBagIcon />
-                </Link>
+                <Link color="#000" href="https://mui.com"></Link>
               </ListItem>
             </List>
           </Box>

@@ -67,7 +67,7 @@ const Login = () => {
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
-              variant="outlined"
+              variant="standard"
               fullWidth
               InputLabelProps={{ sx: { paddingLeft: "22px" } }}
               InputProps={{ sx: { paddingLeft: "22px" } }}

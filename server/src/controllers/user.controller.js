@@ -20,7 +20,6 @@ const userController = {
   },
   register: async (req, res) => {
     try {
-      console.log("Checlk", req.body);
       const user = await userService.register(req.body);
       res.json(user);
     } catch (err) {

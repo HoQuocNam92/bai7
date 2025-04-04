@@ -1,35 +1,37 @@
 const db = require("../config/db");
-const cloudinary = require("../config/cloudinary");
+const cloudinary = require("../config/Cloudinary");
 class ProductModel {
   static async findAll() {
-    const [rows] = await db.query("SELECT * FROM products");
+    const [rows] = await db.query("SELECT * FROM book");
     return rows;
   }
   static async findById(id) {
-    const [row] = await db.query("SELECT * FROM products WHERE id =?", [id]);
+    const [row] = await db.query("SELECT * FROM book WHERE id =?", [id]);
     return row;
   }
   static async create(user) {
     const [result] = await db.query(
-      "INSERT INTO products ( title, price, description) VALUES (?,?,?,?)",
-      [user.title, user.price, user.description],
+      "INSERT INTO book ( title, price,stock_quantity , author ,  description , image_url) VALUES (?,?,?,?,?,?)",
+      [
+        user.title,
+        user.price,
+        user.stock_quantity,
+        user.author,
+        user.description,
+        user.image_url,
+      ],
     );
     return result.insertId;
   }
-  static async findByIdAndDelete(user) {
-    await db.query("DELETE FROM products WHERE id =?", [user.id]);
-
-    return true;
-  }
-  static async findProduct() {
-    const [row] = await db.query("Select name from products ");
+  static async findByIdAndDelete(id) {
+    const [row] = await db.query("delete from book where id = ?", [Number(id)]);
     return row;
   }
+
   static async upload(image) {
-    const [row] = await db.query(
-      "insert into images (imageUrl , publicId) VALUES  (?,?)",
-      [image.imageUrl, image.publicId],
-    );
+    const [row] = await db.query("insert into book (image_url ) VALUES  (? )", [
+      image.imageUrl,
+    ]);
     return row;
   }
   static async removeUpload(imageId) {

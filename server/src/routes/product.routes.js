@@ -1,15 +1,21 @@
 const express = require("express");
 const routes = express.Router();
-const verifyToken = require("../middlewares/auth.middlewares");
+const verifyToken = require("../middlewares/auth.middleware");
 // Require the controller modules
-
+const verifyRole = require("../middlewares/verifyRole.middleware");
 const productController = require("../controllers/product.controller");
 const upload = require("../middlewares/uploadMiddleware");
-
-routes.get("/findProduct", verifyToken, productController.getALlUser);
-routes.post("/createProduct", verifyToken, productController.createUser);
-routes.post("/deleteProduct/:id", verifyToken, productController.deleteUser);
-routes.get("/search", verifyToken, productController.getALlUser);
+routes.get(
+  "/admin/dashboard",
+  verifyToken,
+  verifyRole(["admin"]),
+  (req, res) => {
+    res.json({ message: "Welcome to Admin Dashboard" });
+  },
+);
+routes.get("/findProduct", productController.getALLProduct);
+routes.post("/createProduct", productController.createProduct);
+routes.post("/deleteProduct/:id", productController.deleteProduct);
 routes.post(
   "/uploadImage",
   upload.array("images", 10),

@@ -42,14 +42,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const register = async (
-    username: string,
-    email: string,
-    password: string,
-  ) => {
+  const register = async (name: string, email: string, password: string) => {
     try {
       const response = await axios.post("http://localhost:8080/auth/register", {
-        username,
+        name,
         email,
         password,
       });

@@ -17,7 +17,7 @@ class userService {
       throw new Error("Invalid credentials");
     }
     const accessToken = jwt.sign(
-      { userId: user.id },
+      { userId: user.id, role: user.role },
       process.env.ACCESS_TOKEN,
       {
         expiresIn: "1h",

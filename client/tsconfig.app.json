@@ -28,7 +28,9 @@
       "@pages/*": ["pages/*"],
       "@utils/*": ["utils/*"],
       "@layouts/*": ["layouts/*"],
-      "@context/*": ["context/*"]
+      "@styles/*": ["styles/*"],
+      "@context/*": ["context/*"],
+      "@redux/*": ["redux/*"]
     }
   },
   "include": ["src"]

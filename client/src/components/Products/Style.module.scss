@@ -1,0 +1,109 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@400;700&display=swap");
+@import "../../styles/__mixin.module.scss";
+@import "../../styles/__global.module.scss";
+
+.Container {
+  width: 1440px;
+  padding: 10px;
+  max-width: 100%;
+  padding: 20 50;
+  margin: 0 auto;
+}
+
+.Title {
+  color: rgb(37, 50, 55);
+  font-size: 36px;
+  font-family: "Playfair Display", serif;
+  font-weight: bold;
+  text-align: center;
+}
+
+.ProductList {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+.Product {
+  padding: 40px 10px;
+}
+.ProductImage {
+  position: relative;
+}
+.WishListBtn {
+  position: absolute;
+  right: 8px;
+  top: 2px;
+  border-radius: 50%;
+  border: 1px solid $green-color;
+  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+  i {
+    font-size: 22px;
+    padding: 14px;
+    color: $green-color;
+  }
+}
+.WishListBtn:hover {
+  background-color: rgb(15, 107, 61);
+}
+.ProductImage img {
+  width: 100%;
+  height: auto;
+}
+
+.ProductTitle {
+  color: rgb(59, 61, 66);
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.ProductAuthor {
+  color: rgb(122, 122, 122);
+  font-size: 16px;
+  padding: 10px 0;
+}
+
+.ProductPrice {
+  color: rgb(59, 61, 66);
+  font-size: 22px;
+}
+
+.AddToCart {
+  i {
+    margin-right: 5px;
+    font-size: 12px;
+  }
+  @include AddToCardButton;
+  margin-top: 12px;
+  transition: background-color 0.2s ease-in-out;
+}
+.AddToCart:hover {
+  background-color: rgb(15, 107, 61);
+}
+
+.handlePagination {
+  margin: 0 4px;
+  cursor: pointer;
+  font-size: 18px;
+}
+.handlePagination:hover {
+  opacity: 0.7;
+}
+.PaginationBtn {
+  background-color: #ccc;
+  padding: 8px 16px;
+  border-radius: 4px;
+  margin: 0 4px;
+  cursor: pointer;
+  &.active {
+    background-color: rgb(15, 107, 61);
+    color: #fff;
+  }
+  &:hover {
+    opacity: 0.7;
+  }
+}

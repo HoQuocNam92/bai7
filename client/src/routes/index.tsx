@@ -3,27 +3,36 @@ import { lazy } from "react";
 const routers = [
   {
     path: "/",
-    component: lazy(() => import("@pages/home/Home")),
+    component: lazy(() => import("@pages/Home/Home")),
+  },
+  {
+    path: "/manager/product",
+    component: lazy(() => import("@components/ManagerProduct/ManagerProduct")),
+    hideLayout: true, // Đặt thuộc tính ở đây
+  },
+  {
+    path: "/book/:id",
+    component: lazy(() => import("@components/ProductDetails/ProductDetails")),
+  },
+  {
+    path: "/banner",
+    component: lazy(() => import("@components/Banner/Banner")),
+    hideLayout: true, // Đặt thuộc tính ở đây
   },
   {
     path: "/dashboard",
-    component: lazy(() => import("@components/dashboard/dashboard")),
+    component: lazy(() => import("@components/Dashboard/Dashboard")),
     hideLayout: true, // Đặt thuộc tính ở đây
   },
   {
     path: "/login",
-    component: lazy(() => import("@components/login/Login")),
-    hideLayout: true, // Đặt thuộc tính ở đây
-  },
-  {
-    path: "/profile",
-    component: lazy(() => import("@components/profile/profile")),
+    component: lazy(() => import("@pages/Login/Login")),
     hideLayout: true, // Đặt thuộc tính ở đây
   },
 
   {
     path: "/register",
-    component: lazy(() => import("@components/register/register")),
+    component: lazy(() => import("@pages/Register/Register")),
     hideLayout: true, // Đặt thuộc tính ở đây
   },
 ];

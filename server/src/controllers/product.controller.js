@@ -1,29 +1,49 @@
 const ProductService = require("../services/product.service");
 require("dotenv").config();
 
+const client = require(".././config/redisClient");
+
 const productController = {
-  getALlUser: async (req, res) => {
+  getALLProduct: async (req, res) => {
     try {
-      const users = await ProductService.getALLProduct();
-      res.json(users);
+      const cacheData = await client.get("products");
+      if (cacheData) {
+        return res.json(JSON.parse(cacheData));
+      }
+
+      const products = await ProductService.getALLProduct();
+      if (!products) {
+        return res.status(404).json({ message: "No products found" });
+      }
+
+      await client.setEx("products", 3600, JSON.stringify(products));
+      res.json(products);
     } catch (err) {
+      console.error(err);
       res.status(500).json({ message: err.message });
     }
   },
 
-  createUser: async (req, res) => {
+  createProduct: async (req, res) => {
     try {
+      console.log("check ", req.body);
+      await client.del("products");
       const newUser = await ProductService.createProduct(req.body);
+      const updatedProducts = await ProductService.getALLProduct();
+      await client.setEx("products", 3600, JSON.stringify(updatedProducts));
       res
         .status(201)
-        .json({ message: "Tài khoản được tạo thành công!", user: newUser });
+        .json({ message: "Sản phẩm được tạo thành công!", user: newUser });
     } catch (err) {
       res.status(400).json({ message: err.message });
     }
   },
-  deleteUser: async (req, res) => {
+  deleteProduct: async (req, res) => {
     try {
+      await client.del("products");
       const deletedUser = await ProductService.deleteProduct(req.params.id);
+      const updateProduct = await ProductService.getALLProduct();
+      await client.setEx("products", 3600, JSON.stringify(updateProduct));
       res.json(deletedUser);
     } catch (err) {
       res.status(500).json({ message: err.message });
@@ -47,11 +67,12 @@ const productController = {
         imageUrl: file.path,
         publicId: file.filename,
       }));
-
+      let Images = [];
       for (let i = 0; i < uploadedImages.length; i++) {
-        ProductService.Upload(uploadedImages[i]);
+        Images.push(ProductService.Upload(uploadedImages[i]));
       }
       return res.json({
+        Images,
         message: "Images uploaded successfully",
       });
     } catch (error) {

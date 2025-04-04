@@ -12,6 +12,13 @@ import {
   BadgeProps,
   IconButton,
   styled,
+  TableContainer,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  ClickAwayListener,
 } from "@mui/material";
 import { Search as SearchIcon } from "@mui/icons-material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -20,6 +27,8 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useAuth } from "@context/AuthContext";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Typography } from "@mui/material";
+import { borderRight } from "@mui/system";
 const categories = [
   { name: "Ebooks", link: "#" },
   { name: "Gift Cards", link: "#" },
@@ -35,9 +44,10 @@ const categories = [
 ];
 interface Product {
   id: number;
-  name: string;
+  title: string;
   price: number;
   description: string;
+  image_url: string;
 }
 const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -46,19 +56,21 @@ const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
     padding: "0 4px",
   },
 }));
+
 const Navbar = () => {
   const { loginStatus, resultSearch } = useAuth();
   const [search, setSearch] = useState("");
+  console.log("search ", search);
+  const [showResults, setShowResults] = useState(false);
+
   const [data, setData] = useState<Product[]>([]);
   const [results, setResults] = useState<any>([]);
-  const token = localStorage.getItem("accessToken");
+  console.log("data ", data);
+
   resultSearch(results);
   useEffect(() => {
-    if (!token) return;
     const querySearch = async () => {
-      const response = await axios.get("http://localhost:8080/search", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axios.get("http://localhost:8080/findProduct");
       if (response.status === 200) {
         setData(response.data);
       } else {
@@ -67,15 +79,16 @@ const Navbar = () => {
     };
     querySearch();
   }, []);
-  const searchProduct = () => {
+  useEffect(() => {
     const result = data.filter((item) =>
-      item.name.toUpperCase().includes(search.toUpperCase()),
+      item.title.toLowerCase().includes(search.toLowerCase()),
     );
+    console.log("result  check", result);
     if (result.length) {
       setResults(result);
     }
-    return result;
-  };
+  }, [search]);
+  const hanldeSearch = () => {};
   return (
     <AppBar sx={{ backgroundColor: "#fff" }}>
       <Toolbar sx={{ display: "flex", flexDirection: "column", flex: 1 }}>
@@ -86,10 +99,7 @@ const Navbar = () => {
           sx={{ flex: 1, px: 2, width: "100%" }}
         >
           <Box sx={{ py: 1 }}>
-            <img
-              src="https://rails-assets-us.bookshop.org/ds/images/registered-logo.feff201f7516c84bf6ac44d84c98126760594a80.svg"
-              alt=""
-            />
+            <img src="/images/logo.webp" alt="" />
           </Box>
           <Box
             sx={{
@@ -102,16 +112,18 @@ const Navbar = () => {
             <TextField
               onChange={(event) => {
                 setSearch(event.target.value);
+                setShowResults(true);
               }}
               InputProps={{
-                sx: { borderRadius: "20px" }, // Bo tròn góc
+                sx: { borderRadius: "4px" }, // Bo tròn góc
               }}
               label="Search books, authors, ISBNs"
               variant="outlined"
               fullWidth
+              onBlur={() => setSearch("")}
             />
             <Button
-              onClick={searchProduct}
+              onClick={hanldeSearch}
               sx={{
                 position: "absolute",
                 right: "4px",
@@ -124,6 +136,50 @@ const Navbar = () => {
                 }}
               />
             </Button>
+            {showResults && results.length > 0 && (
+              <ClickAwayListener
+                onClickAway={() => {
+                  setShowResults(false);
+                }}
+              >
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: "100%",
+                    left: 0,
+                    width: "100%",
+                    bgcolor: "#fff",
+                    boxShadow: "0px 4px 10px rgba(0,0,0,0.3)", // Đổ bóng
+                    borderRadius: "4px",
+                    zIndex: 1000,
+                    maxHeight: "200px",
+                    overflowY: "auto",
+                  }}
+                >
+                  <TableContainer>
+                    <Table>
+                      <TableBody>
+                        {results.map((item: Product) => (
+                          <TableRow
+                            key={item.id}
+                            onMouseDown={(e) => e.preventDefault()} // Ngăn onBlur bị kích hoạt trước
+                            sx={{
+                              cursor: "pointer",
+                              "&:hover": { bgcolor: "#f5f5f5" },
+                            }}
+                          >
+                            <TableCell width="60px">
+                              <img width="40px" src={item.image_url} alt="" />
+                            </TableCell>
+                            <TableCell>{item.title}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </Box>
+              </ClickAwayListener>
+            )}
           </Box>
 
           <Box>

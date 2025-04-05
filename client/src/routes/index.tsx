@@ -6,7 +6,7 @@ const routers = [
     component: lazy(() => import("@pages/Home/Home")),
   },
   {
-    path: "/manager/product",
+    path: "/admin/product",
     component: lazy(() => import("@components/ManagerProduct/ManagerProduct")),
     hideLayout: true, // Đặt thuộc tính ở đây
   },

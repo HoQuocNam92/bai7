@@ -14,12 +14,21 @@ routes.get(
   },
 );
 routes.get("/findProduct", productController.getALLProduct);
-routes.post("/createProduct", productController.createProduct);
-routes.post("/deleteProduct/:id", productController.deleteProduct);
+routes.get("/findProduct/:id", productController.getProductByID);
 routes.post(
-  "/uploadImage",
-  upload.array("images", 10),
-  productController.uploadImage,
+  "/admin/addProduct",
+  upload.single("image"),
+  productController.addProduct,
 );
+routes.post(
+  "/admin/deleteProduct/:id",
+
+  productController.deleteProduct,
+);
+// routes.post(
+//   "/uploadImage",
+//   upload.array("images", 1),
+//   productController.uploadImage,
+// );
 routes.delete("/removeImage/:id", productController.removeImage);
 module.exports = routes;

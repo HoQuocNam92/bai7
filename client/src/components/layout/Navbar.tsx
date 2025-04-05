@@ -29,6 +29,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Typography } from "@mui/material";
 import { borderRight } from "@mui/system";
+import { useNavigate } from "react-router-dom";
 const categories = [
   { name: "Ebooks", link: "#" },
   { name: "Gift Cards", link: "#" },
@@ -62,11 +63,13 @@ const Navbar = () => {
   const [search, setSearch] = useState("");
   console.log("search ", search);
   const [showResults, setShowResults] = useState(false);
-
+  const Navigation = useNavigate();
   const [data, setData] = useState<Product[]>([]);
   const [results, setResults] = useState<any>([]);
   console.log("data ", data);
-
+  const handleHome = () => {
+    Navigation("/");
+  };
   resultSearch(results);
   useEffect(() => {
     const querySearch = async () => {
@@ -98,8 +101,8 @@ const Navbar = () => {
           alignItems="center"
           sx={{ flex: 1, px: 2, width: "100%" }}
         >
-          <Box sx={{ py: 1 }}>
-            <img src="/images/logo.webp" alt="" />
+          <Box sx={{ py: 1, cursor: "pointer" }}>
+            <img src="/images/logo.webp" alt="" onClick={handleHome} />
           </Box>
           <Box
             sx={{

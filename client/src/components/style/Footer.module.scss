@@ -1,0 +1,89 @@
+.Footer {
+  background-color: #5cd799;
+  padding: 30px 50px;
+}
+
+.FooterSection {
+  width: 1622px;
+  margin: auto;
+  max-width: 100%;
+  display: flex;
+  justify-content: space-between;
+  color: #fff;
+}
+.Logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  flex: 1;
+}
+.Logo img {
+  width: 208px;
+  height: 208px;
+}
+
+.CopyRight {
+  font-size: 16px;
+}
+.icons i {
+  font-size: 20px;
+  padding: 0 14px;
+  margin-top: 16px;
+}
+
+.Title {
+  font-size: 24px;
+  font-weight: bold;
+}
+.Section a {
+  display: inline-block;
+  font-size: 16px;
+  text-decoration: none;
+  padding: 8px 0;
+}
+
+.NameShop {
+  font-size: 16px;
+  font-weight: bold;
+  padding: 8px 0;
+}
+
+.Nav {
+  flex: 1;
+}
+.Location {
+  flex: 2;
+}
+
+.ShowMap {
+  flex: 2;
+}
+
+.Location .Maps {
+  display: flex;
+}
+.ListMap {
+  margin-top: 16px;
+}
+.MapBtn {
+  display: flex;
+}
+.MapBtn {
+  margin-bottom: 48px;
+}
+.MapBtn p {
+  margin-left: 16px;
+}
+.MapBtn h2 {
+  font-weight: bold;
+  text-decoration: underline;
+  font-size: 18px;
+}
+.Address {
+  display: flex;
+  flex-direction: column;
+}
+.Address p {
+  margin-bottom: 16px;
+}

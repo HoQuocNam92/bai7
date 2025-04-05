@@ -1,0 +1,68 @@
+.Container {
+  margin-top: 220px;
+}
+.Section {
+  padding: 0 80px;
+
+  display: flex;
+}
+.ImageProduct {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+}
+.ImageProduct img {
+  width: 750px;
+  height: 750px;
+}
+.Text {
+  width: 50%;
+}
+.TextName {
+  font-size: 54px;
+  color: rgb(37, 50, 55);
+  font-weight: bold;
+}
+.Author {
+  font-size: 24px;
+  color: rgb(84, 89, 95);
+  font-weight: bold;
+  padding: 16px 0;
+}
+.Meta {
+  font-size: 18px;
+  color: rgb(84, 89, 95);
+  font-weight: bold;
+  padding: 16px 0;
+}
+.Description {
+  font-size: 18px;
+  opacity: 0.7;
+  padding: 16px 0;
+  line-height: 1.5;
+}
+.Price {
+  font-size: 24px;
+  font-weight: bold;
+  padding: 16px 0;
+}
+.Btn {
+  display: flex;
+}
+.Btn input {
+  padding: 13px;
+  width: 100px;
+  margin-right: 20px;
+  border: 1px solid #000;
+}
+.AddToCart {
+  background-color: rgb(92, 215, 153);
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  width: 100%;
+}
+.AddToCart:hover {
+  background-color: rgb(84, 204, 140);
+}

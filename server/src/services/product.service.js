@@ -4,7 +4,7 @@ class UserService {
   static async getALLProduct() {
     return await ProductModel.findAll();
   }
-  static async createProduct(userData) {
+  static async addProduct(userData) {
     return await ProductModel.create(userData);
   }
   static async getProduct() {

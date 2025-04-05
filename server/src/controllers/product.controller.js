@@ -23,13 +23,32 @@ const productController = {
       res.status(500).json({ message: err.message });
     }
   },
-
-  createProduct: async (req, res) => {
+  getProductByID: async (req, res) => {
     try {
-      console.log("check ", req.body);
+      const product = await ProductService.getProductByID(req.params.id);
+      if (!product) {
+        return res.status(404).json({ message: "No products found" });
+      }
+      res.json(product);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: error.message });
+    }
+  },
+  addProduct: async (req, res) => {
+    try {
       await client.del("products");
-      const newUser = await ProductService.createProduct(req.body);
+      const images = req.file;
+      if (images) {
+        const imageUrl = images.path;
+        const publicId = images.filename;
+        req.body.image_url = imageUrl;
+        req.body.public_id = publicId;
+      }
+
+      const newUser = await ProductService.addProduct(req.body);
       const updatedProducts = await ProductService.getALLProduct();
+
       await client.setEx("products", 3600, JSON.stringify(updatedProducts));
       res
         .status(201)

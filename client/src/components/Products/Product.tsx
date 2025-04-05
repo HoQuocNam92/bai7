@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./Style.module.scss";
 import axios from "axios";
 import { Link } from "react-router-dom";
-const TotalPage = 8;
+const TotalPage = 12;
 const Product = function Products() {
   const [currentPage, setCurrentPage] = useState(0);
   const [data, setData] = useState<any>([]);
@@ -72,7 +72,6 @@ const Product = function Products() {
           <div className={Product}>
             <div className={ProductImage}>
               <img loading="lazy" src={item.image_url} alt="item" />
-              {/* <span className="badge">HARDCOVER</span> */}
               <button
                 className={WishListBtn}
                 onClick={() => handleWishListBtn(item.id)}
@@ -94,7 +93,6 @@ const Product = function Products() {
           </div>
         ))}
       </div>
-      {/* Pagination */}
       <div className={pagination}>
         <button
           className={handlePagination}

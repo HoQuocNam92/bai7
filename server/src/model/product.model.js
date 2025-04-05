@@ -6,12 +6,19 @@ class ProductModel {
     return rows;
   }
   static async findById(id) {
-    const [row] = await db.query("SELECT * FROM book WHERE id =?", [id]);
-    return row;
+    try {
+      const [row] = await db.query("SELECT * FROM book WHERE id =?", [
+        Number(id),
+      ]);
+      return row;
+    } catch (error) {
+      console.error("Database query error:", error);
+      throw error;
+    }
   }
   static async create(user) {
     const [result] = await db.query(
-      "INSERT INTO book ( title, price,stock_quantity , author ,  description , image_url) VALUES (?,?,?,?,?,?)",
+      "INSERT INTO book ( title, price,stock_quantity , author ,  description , image_url , image_id) VALUES (?,?,?,?,?,?,?)",
       [
         user.title,
         user.price,
@@ -19,6 +26,7 @@ class ProductModel {
         user.author,
         user.description,
         user.image_url,
+        user.public_id,
       ],
     );
     return result.insertId;

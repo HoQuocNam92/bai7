@@ -17,14 +17,15 @@ import axios from "axios";
 
 const ManagerProduct = () => {
   const [products, setProducts] = useState([]);
-  const [open, setOpen] = useState(false); // Trạng thái mở modal
+  const [open, setOpen] = useState(false);
+  const [imageFile, setImageFile] = useState(null);
   const [newProduct, setNewProduct] = useState({
     title: "",
-    author: "", // Thêm tác giả
+    author: "",
     description: "",
     price: "",
     stock_quantity: "",
-    image_url: "",
+    image: "",
   });
 
   useEffect(() => {
@@ -38,7 +39,7 @@ const ManagerProduct = () => {
     console.log(id);
     if (window.confirm("Bạn có chắc chắn muốn xóa sản phẩm này?")) {
       axios
-        .post(`http://localhost:8080/deleteProduct/${id}`)
+        .post(`http://localhost:8080/admin/deleteProduct/${id}`)
         .then(() =>
           setProducts(products.filter((product) => product.id !== id)),
         );
@@ -46,27 +47,45 @@ const ManagerProduct = () => {
   };
 
   const handleInputChange = (e) => {
-    setNewProduct({ ...newProduct, [e.target.name]: e.target.value });
-  };
+    const { name, value, files } = e.target;
 
-  const handleAddProduct = () => {
-    axios
-      .post("http://localhost:8080/createProduct", newProduct)
-      .then((response) => {
-        setProducts([...products, response.data]); // Cập nhật danh sách sản phẩm
-        setOpen(false); // Đóng modal
-        setNewProduct({
-          title: "",
-          author: "", // Reset tác giả
-          description: "",
-          price: "",
-          stock_quantity: "",
-          image_url: "",
-        });
+    if (name === "image" && files.length > 0) {
+      const image = URL.createObjectURL(files[0]);
+      setNewProduct({ ...newProduct, [name]: files[0] });
+      setImageFile(image);
+    } else {
+      setNewProduct({ ...newProduct, [name]: value });
+    }
+  };
+  const handleAddProduct = async () => {
+    const formData = new FormData();
+    formData.append("title", newProduct.title);
+    formData.append("author", newProduct.author);
+    formData.append("description", newProduct.description);
+    formData.append("price", newProduct.price);
+    formData.append("stock_quantity", newProduct.stock_quantity);
+    formData.append("image", newProduct.image);
+    await axios
+      .post("http://localhost:8080/admin/addProduct", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       })
-      .catch((error) => console.error("Error adding product:", error));
+      .then(
+        (response) => (
+          setProducts([...products, response.data]),
+          setOpen(false),
+          setNewProduct({
+            title: "",
+            author: "",
+            description: "",
+            price: "",
+            stock_quantity: "",
+            image: null,
+          })
+        ),
+      );
   };
-
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Quản lý sản phẩm</h1>
@@ -179,13 +198,19 @@ const ManagerProduct = () => {
             onChange={handleInputChange}
           />
           <TextField
-            label="URL ảnh"
-            name="image_url"
+            name="image"
             fullWidth
+            type="file"
             margin="normal"
-            value={newProduct.image_url}
             onChange={handleInputChange}
           />
+          {imageFile && (
+            <img
+              src={imageFile}
+              alt="Preview"
+              style={{ width: "100%", height: "auto", marginTop: "10px" }}
+            />
+          )}
           <Button
             variant="contained"
             color="primary"

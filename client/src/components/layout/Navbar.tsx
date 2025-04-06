@@ -14,22 +14,21 @@ import {
   styled,
   TableContainer,
   Table,
-  TableHead,
   TableRow,
   TableCell,
   TableBody,
   ClickAwayListener,
 } from "@mui/material";
+
 import { Search as SearchIcon } from "@mui/icons-material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useAuth } from "@context/AuthContext";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { Typography } from "@mui/material";
-import { borderRight } from "@mui/system";
+import { useContext, useEffect, useMemo, useState, memo } from "react";
+
 import { useNavigate } from "react-router-dom";
+import { ProductContext } from "@context/ProductContext";
 const categories = [
   { name: "Ebooks", link: "#" },
   { name: "Gift Cards", link: "#" },
@@ -58,39 +57,26 @@ const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
   },
 }));
 
-const Navbar = () => {
-  const { loginStatus, resultSearch } = useAuth();
+const Navbar = memo(() => {
+  const { loginStatus, resultSearch, user, logout } = useAuth();
+  const { product } = useContext(ProductContext) as any;
   const [search, setSearch] = useState("");
-  console.log("search ", search);
   const [showResults, setShowResults] = useState(false);
-  const Navigation = useNavigate();
-  const [data, setData] = useState<Product[]>([]);
   const [results, setResults] = useState<any>([]);
-  console.log("data ", data);
+  const Navigation = useNavigate();
   const handleHome = () => {
     Navigation("/");
   };
+
   resultSearch(results);
-  useEffect(() => {
-    const querySearch = async () => {
-      const response = await axios.get("http://localhost:8080/findProduct");
-      if (response.status === 200) {
-        setData(response.data);
-      } else {
-        console.error("Error fetching search results:", response.status);
-      }
-    };
-    querySearch();
-  }, []);
-  useEffect(() => {
-    const result = data.filter((item) =>
+  const filteredResults = useMemo(() => {
+    return product.filter((item: any) =>
       item.title.toLowerCase().includes(search.toLowerCase()),
     );
-    console.log("result  check", result);
-    if (result.length) {
-      setResults(result);
-    }
-  }, [search]);
+  }, [product, search]);
+  useEffect(() => {
+    setResults(filteredResults);
+  }, [filteredResults]);
   const hanldeSearch = () => {};
   return (
     <AppBar sx={{ backgroundColor: "#fff" }}>
@@ -118,7 +104,7 @@ const Navbar = () => {
                 setShowResults(true);
               }}
               InputProps={{
-                sx: { borderRadius: "4px" }, // Bo tròn góc
+                sx: { borderRadius: "4px" },
               }}
               label="Search books, authors, ISBNs"
               variant="outlined"
@@ -152,7 +138,7 @@ const Navbar = () => {
                     left: 0,
                     width: "100%",
                     bgcolor: "#fff",
-                    boxShadow: "0px 4px 10px rgba(0,0,0,0.3)", // Đổ bóng
+                    boxShadow: "0px 4px 10px rgba(0,0,0,0.3)",
                     borderRadius: "4px",
                     zIndex: 1000,
                     maxHeight: "200px",
@@ -165,7 +151,7 @@ const Navbar = () => {
                         {results.map((item: Product) => (
                           <TableRow
                             key={item.id}
-                            onMouseDown={(e) => e.preventDefault()} // Ngăn onBlur bị kích hoạt trước
+                            onMouseDown={(e) => e.preventDefault()}
                             sx={{
                               cursor: "pointer",
                               "&:hover": { bgcolor: "#f5f5f5" },
@@ -197,14 +183,43 @@ const Navbar = () => {
                 </Link>
               </ListItem>
               {loginStatus ? (
-                <ListItem sx={{ whiteSpace: "nowrap" }}>
+                <ListItem
+                  className="user"
+                  sx={{ whiteSpace: "nowrap", position: "relative" }}
+                >
                   <Link
                     sx={{ textDecoration: "none" }}
                     color="#000"
                     href="/profile"
+                    paddingRight="4px"
                   >
                     <AccountCircleIcon />
                   </Link>
+                  <Box>
+                    <Link sx={{ textDecoration: "none", cursor: "pointer" }}>
+                      {user.name}
+                    </Link>
+                  </Box>
+                  <ul className="noti-nav">
+                    <li>
+                      <Link
+                        className="option"
+                        sx={{ textDecoration: "none" }}
+                        href="/profile"
+                      >
+                        Profile
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        className="option"
+                        sx={{ textDecoration: "none" }}
+                        onClick={logout}
+                      >
+                        Log Out
+                      </Link>
+                    </li>
+                  </ul>
                 </ListItem>
               ) : (
                 <Box display="flex">
@@ -258,6 +273,6 @@ const Navbar = () => {
       </Toolbar>
     </AppBar>
   );
-};
+});
 
 export default Navbar;

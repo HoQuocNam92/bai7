@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+
 // import { useNavigate } from "react-router-dom";
 interface AuthContextType {
   user: any;
@@ -27,16 +29,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
   const login = async (email: string, password: string) => {
     try {
-      console.log("Login", email, password);
       const response = await axios.post("http://localhost:8080/auth/login", {
         email,
         password,
       });
-      console.log("CHECK TYPOER", response.data);
       setLoginStatus(true);
       setUser(response.data.user);
       localStorage.setItem("accessToken", response.data.accessToken);
       localStorage.setItem("user", JSON.stringify(response.data.user));
+      toast.success("Đăng nhập thành công!");
     } catch (error) {
       throw new Error("Sai email hoặc mật khẩu!");
     }
@@ -51,6 +52,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       });
 
       console.log("Đăng ký thành công:", response.data);
+      toast.success("Đăng ký thành công!");
     } catch (error) {
       throw new Error("Đăng ký thất bạsi!");
     }
@@ -61,11 +63,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.removeItem("user");
     setUser(null);
     setLoginStatus(false);
-    alert("Đăng xuất thành công ");
+    toast.success("Đăng xuất thành công!");
   };
   const resultSearch = (data: string) => {
     setDatasearch(data);
   };
+
   return (
     <AuthContext.Provider
       value={{
@@ -78,6 +81,19 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         resultSearch,
       }}
     >
+      <ToastContainer
+        position="top-center"
+        autoClose={500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+
       {children}
     </AuthContext.Provider>
   );

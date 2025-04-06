@@ -3,6 +3,7 @@ import style from "../style/Footer.module.scss";
 import clsx from "clsx";
 
 const Footer = () => {
+  console.log("Footer render");
   const {
     Footer,
     Logo,

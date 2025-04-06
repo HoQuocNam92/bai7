@@ -25,11 +25,18 @@ const productController = {
   },
   getProductByID: async (req, res) => {
     try {
-      const product = await ProductService.getProductByID(req.params.id);
-      if (!product) {
+      const cacheKey = `productById${req.params.id}`;
+      const cacheData = await client.get(cacheKey);
+      if (cacheData) {
+        const product = JSON.parse(cacheData);
+        return res.json(product);
+      }
+      const products = await ProductService.getProductByID(req.params.id);
+      if (!products) {
         return res.status(404).json({ message: "No products found" });
       }
-      res.json(product);
+      await client.setEx(cacheKey, 3600, JSON.stringify(products));
+      res.json(products);
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: error.message });

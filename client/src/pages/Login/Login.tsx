@@ -16,7 +16,6 @@ const Login = () => {
     e.preventDefault();
     try {
       await login(email, password);
-      alert("Đăng nhập thành công!");
       navigate("/");
     } catch (error) {
       console.error("Lỗi đăng nhập:", error);

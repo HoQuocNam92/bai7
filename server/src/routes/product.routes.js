@@ -17,6 +17,8 @@ routes.get("/findProduct", productController.getALLProduct);
 routes.get("/findProduct/:id", productController.getProductByID);
 routes.post(
   "/admin/addProduct",
+  verifyToken,
+  verifyRole(["admin"]),
   upload.single("image"),
   productController.addProduct,
 );

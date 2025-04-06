@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "./Style.module.scss";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { ProductContext } from "../../context/ProductContext";
 const TotalPage = 12;
 const Product = function Products() {
+  const { product } = useContext(ProductContext) as any;
   const [currentPage, setCurrentPage] = useState(0);
-  const [data, setData] = useState<any>([]);
   const {
     Container,
     Title,
@@ -37,32 +38,20 @@ const Product = function Products() {
     };
     fectData();
   };
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("http://localhost:8080/findProduct");
-        if (response.status === 200) {
-          setData(response.data);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
-  }, []);
+
   const handlePaginationNext = () => {
     setCurrentPage((prevPage) => prevPage + 1);
   };
   const handlePaginationPrev = () => {
     setCurrentPage((prevPage) => prevPage - 1);
   };
-  const buttons = Math.ceil(data.length / TotalPage);
+  const buttons = Math.ceil(product.length / TotalPage);
   const startIndex = currentPage * TotalPage;
   const endIndex = startIndex + TotalPage;
   //paginations
 
   // render products
-  const products = data.slice(startIndex, endIndex);
+  const products = product.slice(startIndex, endIndex);
 
   return (
     <div className={Container}>

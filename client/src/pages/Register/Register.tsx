@@ -13,12 +13,10 @@ const register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  console.log(name, email, password);
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await register(name, email, password);
-      alert("Đăng ký thành công! Chuyển đến trang đăng nhập.");
       navigate("/login");
     } catch (error) {
       console.error("Lỗi đăng ký:", error);

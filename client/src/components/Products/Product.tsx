@@ -1,10 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import styles from "./Style.module.scss";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { ProductContext } from "../../context/ProductContext";
+import { ProductContext } from "@context/ProductContext";
+import { CartContext } from "@context/CartContext";
 const TotalPage = 12;
 const Product = function Products() {
+  const { handleCart } = useContext(CartContext) as any;
   const { product } = useContext(ProductContext) as any;
   const [currentPage, setCurrentPage] = useState(0);
   const {
@@ -48,9 +50,7 @@ const Product = function Products() {
   const buttons = Math.ceil(product.length / TotalPage);
   const startIndex = currentPage * TotalPage;
   const endIndex = startIndex + TotalPage;
-  //paginations
 
-  // render products
   const products = product.slice(startIndex, endIndex);
 
   return (
@@ -73,11 +73,15 @@ const Product = function Products() {
             </h2>
             <p className={ProductAuthor}>{item.author}</p>
             <p className={ProductPrice}>{item.price} ₫</p>
-            <button className={AddToCart} id={item.id}>
-              <Link to={`/book/${item.id}`}>
-                {" "}
-                <i className="fa-solid fa-cart-shopping"></i>Add To Cart
-              </Link>
+            <button
+              style={{ cursor: "pointer" }}
+              className={AddToCart}
+              id={item.id}
+              onClick={() => {
+                handleCart(item.id);
+              }}
+            >
+              <i className="fa-solid fa-cart-shopping"></i>Add To Cart
             </button>
           </div>
         ))}

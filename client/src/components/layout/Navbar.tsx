@@ -29,18 +29,11 @@ import { useContext, useEffect, useMemo, useState, memo } from "react";
 
 import { useNavigate } from "react-router-dom";
 import { ProductContext } from "@context/ProductContext";
+import Cart from "@components/Cart/Cart";
 const categories = [
   { name: "Ebooks", link: "#" },
   { name: "Gift Cards", link: "#" },
   { name: "Special Offers", link: "#" },
-  { name: "Refer A Friend", link: "#" },
-  { name: "New Books", link: "#" },
-  { name: "Best Sellers", link: "#" },
-  { name: "Fiction", link: "#" },
-  { name: "Nonfiction", link: "#" },
-  { name: "YA", link: "#" },
-  { name: "Kids", link: "#" },
-  { name: "Games & Puzzles", link: "#" },
 ];
 interface Product {
   id: number;
@@ -56,8 +49,13 @@ const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
     padding: "0 4px",
   },
 }));
-
+import { CartContext } from "@context/CartContext";
 const Navbar = memo(() => {
+  const [OnCart, setOnCart] = useState(false);
+  const handleOnCart = () => {
+    setOnCart(!OnCart);
+  };
+  const { quantity } = useContext(CartContext) as any;
   const { loginStatus, resultSearch, user, logout } = useAuth();
   const { product } = useContext(ProductContext) as any;
   const [search, setSearch] = useState("");
@@ -79,7 +77,7 @@ const Navbar = memo(() => {
   }, [filteredResults]);
   const hanldeSearch = () => {};
   return (
-    <AppBar sx={{ backgroundColor: "#fff" }}>
+    <AppBar sx={{ backgroundColor: "#fff", position: "relative" }}>
       <Toolbar sx={{ display: "flex", flexDirection: "column", flex: 1 }}>
         <Stack
           direction="row"
@@ -243,8 +241,20 @@ const Navbar = memo(() => {
                   </ListItem>
                 </Box>
               )}
-              <IconButton aria-label="cart">
-                <StyledBadge badgeContent={4} color="secondary">
+              <IconButton
+                id="IconCart"
+                aria-label="cart"
+                onClick={handleOnCart}
+              >
+                <StyledBadge
+                  defaultValue={0}
+                  badgeContent={quantity}
+                  sx={{ padding: "0px" }}
+                  color="secondary"
+                >
+                  <Box sx={{ display: OnCart ? "block" : "none" }}>
+                    <Cart />
+                  </Box>
                   <ShoppingCartIcon />
                 </StyledBadge>
               </IconButton>

@@ -6,7 +6,7 @@ import { Stack } from "@mui/system";
 import PersonIcon from "@mui/icons-material/Person";
 import LockIcon from "@mui/icons-material/Lock";
 const Login = () => {
-  const { login } = useAuth(); // Gọi hàm đăng nhập từ AuthContext
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");

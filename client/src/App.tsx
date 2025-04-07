@@ -5,20 +5,30 @@ import routers from "./routes/index";
 import { AuthProvider } from "@context/AuthContext";
 import { ProductProvider } from "@context/ProductContext";
 import MainLayout from "@layouts/mainLayout";
-import ScrollToTop from "./ScrollToTop"; // (Nếu bạn có dùng ScrollToTop)
-import { ScrollRestoration } from "react-router-dom";
-
+import ScrollToTop from "./ScrollToTop";
+import { CartProvider } from "@context/CartContext";
 function App() {
   return (
     <ProductProvider>
-      <AuthProvider>
-        <BrowserRouter>
-          <ScrollToTop />
-          <Suspense fallback={<div>Loading...</div>}>
-            <Routes>
-              <Route element={<MainLayout />}>
+      <CartProvider>
+        <AuthProvider>
+          <BrowserRouter>
+            <ScrollToTop />
+            <Suspense fallback={<div>Loading...</div>}>
+              <Routes>
+                <Route element={<MainLayout />}>
+                  {routers
+                    .filter((route) => !route.hideLayout)
+                    .map((item, index) => (
+                      <Route
+                        key={index}
+                        path={item.path}
+                        element={<item.component />}
+                      />
+                    ))}
+                </Route>
                 {routers
-                  .filter((route) => !route.hideLayout) // Ẩn layout cho các trang đặc biệt
+                  .filter((route) => route.hideLayout)
                   .map((item, index) => (
                     <Route
                       key={index}
@@ -26,20 +36,11 @@ function App() {
                       element={<item.component />}
                     />
                   ))}
-              </Route>
-              {routers
-                .filter((route) => route.hideLayout) // Chỉ lấy các route cần ẩn layout
-                .map((item, index) => (
-                  <Route
-                    key={index}
-                    path={item.path}
-                    element={<item.component />}
-                  />
-                ))}
-            </Routes>
-          </Suspense>
-        </BrowserRouter>
-      </AuthProvider>
+              </Routes>
+            </Suspense>
+          </BrowserRouter>
+        </AuthProvider>
+      </CartProvider>
     </ProductProvider>
   );
 }

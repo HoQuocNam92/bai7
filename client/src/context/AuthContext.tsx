@@ -2,7 +2,6 @@ import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 
-// import { useNavigate } from "react-router-dom";
 interface AuthContextType {
   user: any;
   login: (email: string, password: string) => Promise<void>;
@@ -16,7 +15,6 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  // const navigate = useNavigate();
   const [user, setUser] = useState<any>(null);
   const [loginStatus, setLoginStatus] = useState<boolean>(false);
   const [dataSearch, setDatasearch] = useState<string>("");

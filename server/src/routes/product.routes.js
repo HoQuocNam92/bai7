@@ -15,22 +15,18 @@ routes.get(
 );
 routes.get("/findProduct", productController.getALLProduct);
 routes.get("/findProduct/:id", productController.getProductByID);
-routes.post(
-  "/admin/addProduct",
+routes.get(
+  "/admin",
   verifyToken,
   verifyRole(["admin"]),
+  productController.Admin,
+);
+routes.post(
+  "/admin/addProduct",
   upload.single("image"),
   productController.addProduct,
 );
-routes.post(
-  "/admin/deleteProduct/:id",
+routes.post("/admin/deleteProduct/:id", productController.deleteProduct);
 
-  productController.deleteProduct,
-);
-// routes.post(
-//   "/uploadImage",
-//   upload.array("images", 1),
-//   productController.uploadImage,
-// );
 routes.delete("/removeImage/:id", productController.removeImage);
 module.exports = routes;

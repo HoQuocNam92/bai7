@@ -23,6 +23,11 @@ const productController = {
       res.status(500).json({ message: err.message });
     }
   },
+  Admin: async (req, res) => {
+    return res.status(200).json({
+      message: "Welcome to Admin Dashboard",
+    });
+  },
   getProductByID: async (req, res) => {
     try {
       const cacheKey = `productById${req.params.id}`;

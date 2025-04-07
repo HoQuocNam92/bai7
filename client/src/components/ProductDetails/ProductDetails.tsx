@@ -3,11 +3,13 @@ import styles from "./Style.module.scss";
 import clsx from "clsx";
 import { ProductContext } from "@context/ProductContext";
 import { useParams } from "react-router-dom";
+import ProductOther from "@components/Swiper/Swiper";
+
 const ProductDetails = React.memo(() => {
   const { id } = useParams();
   const { productDetail, setId } = useContext(ProductContext) as any;
   const [quantity, setQuantity] = useState(1);
-
+  const { product } = useContext(ProductContext) as any;
   useEffect(() => {
     if (id) {
       setId(Number(id));
@@ -19,7 +21,7 @@ const ProductDetails = React.memo(() => {
     }
   }, [productDetail]);
 
-  const product = productDetail[0];
+  const products = productDetail[0];
   const {
     Container,
     ImageProduct,
@@ -29,40 +31,45 @@ const ProductDetails = React.memo(() => {
     Meta,
     Description,
     Price,
-    AddToCart,
     Section,
     Btn,
+
+    AddToCart,
   } = styles;
-  if (!product) {
+
+  if (!products) {
     return <div>Loading...</div>;
   }
   return (
-    <div className={Container}>
-      <div className={Section}>
-        <div className={ImageProduct}>
-          <img loading="lazy" src={product.image_url} alt="" />
-        </div>
-        <div className={clsx(Text)}>
-          <h2 className={clsx(TextName)}>{product.title}</h2>
-          <p className={clsx(Author)}>{product.author}</p>
-          <p className={clsx(Meta)}>{product.meta}</p>
-          <p className={clsx(Description)}>{product.description}</p>
-          <p className={clsx(Price)}>Giá : {product.price} VND</p>
-          <div className={Btn}>
-            <input
-              type="number"
-              value={quantity}
-              onChange={(e) => setQuantity(Number(e.target.value))}
-              name=""
-              min={1}
-              id=""
-            />
-            <button className={clsx(AddToCart)}>
-              <i className="fa-solid fa-cart-shopping"></i>Add To Cart
-            </button>
+    <div>
+      <div className={Container}>
+        <div className={Section}>
+          <div className={ImageProduct}>
+            <img loading="lazy" src={products.image_url} alt="" />
+          </div>
+          <div className={clsx(Text)}>
+            <h2 className={clsx(TextName)}>{products.title}</h2>
+            <p className={clsx(Author)}>{products.author}</p>
+            <p className={clsx(Meta)}>{products.meta}</p>
+            <p className={clsx(Description)}>{products.description}</p>
+            <p className={clsx(Price)}>Giá : {products.price} VND</p>
+            <div className={Btn}>
+              <input
+                type="number"
+                value={quantity}
+                onChange={(e) => setQuantity(Number(e.target.value))}
+                name=""
+                min={1}
+                id=""
+              />
+              <button className={clsx(AddToCart)}>
+                <i className="fa-solid fa-cart-shopping"></i>Add To Cart
+              </button>
+            </div>
           </div>
         </div>
       </div>
+      <ProductOther />
     </div>
   );
 });

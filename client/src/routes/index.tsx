@@ -8,11 +8,20 @@ const routers = [
   {
     path: "/admin/product",
     component: lazy(() => import("@components/ManagerProduct/ManagerProduct")),
-    hideLayout: true, // Đặt thuộc tính ở đây
+    hideLayout: true,
   },
   {
     path: "/book/:id",
     component: lazy(() => import("@components/ProductDetails/ProductDetails")),
+  },
+  {
+    path: "/otherProduct",
+    component: lazy(() => import("@components/Swiper/Swiper")),
+    hideLayout: true,
+  },
+  {
+    path: "/profile",
+    component: lazy(() => import("@components/Profile/Profile")),
   },
   {
     path: "/banner",

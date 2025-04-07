@@ -1,0 +1,40 @@
+.Container {
+  background-color: rgba(122, 122, 122, 0.06);
+}
+.Place {
+  font-family: "Roboto", sans-serif;
+  align-items: stretch;
+  padding: 0 50px;
+  width: 1440px;
+  margin: 80px auto;
+  max-width: 100%;
+  text-align: center;
+  padding: 20px 50px;
+}
+.Place p {
+  font-size: 36px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+.Content {
+  display: flex;
+  gap: 10px;
+}
+.Location:first-child {
+  background: url("/images/paper.jpg") no-repeat center center;
+  background-size: cover;
+  width: 715px;
+  height: 715px;
+}
+.Location:last-child {
+  background: url("/images/paper2.jpg") no-repeat center center;
+  background-size: cover;
+  width: 715px;
+  height: 715px;
+}
+span {
+  padding-top: 20px;
+  display: block;
+  font-weight: bold;
+  text-decoration: underline;
+}

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styles from "./Style.module.scss";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -72,11 +72,10 @@ const Product = function Products() {
               <Link to={`/book/${item.id}`}>{item.title}</Link>
             </h2>
             <p className={ProductAuthor}>{item.author}</p>
-            <p className={ProductPrice}>{item.price} ₫</p>
+            <p className={ProductPrice}>{item.price} </p>
             <button
               style={{ cursor: "pointer" }}
               className={AddToCart}
-              id={item.id}
               onClick={() => {
                 handleCart(item.id);
               }}

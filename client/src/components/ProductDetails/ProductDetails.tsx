@@ -1,25 +1,22 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, memo } from "react";
 import styles from "./Style.module.scss";
 import clsx from "clsx";
 import { ProductContext } from "@context/ProductContext";
 import { useParams } from "react-router-dom";
 import ProductOther from "@components/Swiper/Swiper";
+import { CartContext } from "@context/CartContext";
 
-const ProductDetails = React.memo(() => {
+const ProductDetails = () => {
+  const { handleCart } = useContext(CartContext) as any;
   const { id } = useParams();
+
   const { productDetail, setId } = useContext(ProductContext) as any;
   const [quantity, setQuantity] = useState(1);
-  const { product } = useContext(ProductContext) as any;
   useEffect(() => {
     if (id) {
       setId(Number(id));
     }
   }, [id]);
-  useEffect(() => {
-    if (productDetail.length > 0) {
-      window.scrollTo({ top: 0, behavior: "auto" });
-    }
-  }, [productDetail]);
 
   const products = productDetail[0];
   const {
@@ -33,13 +30,15 @@ const ProductDetails = React.memo(() => {
     Price,
     Section,
     Btn,
-
     AddToCart,
   } = styles;
 
   if (!products) {
     return <div>Loading...</div>;
   }
+  const handleAddToCart = () => {
+    handleCart(Number(id), quantity);
+  };
   return (
     <div>
       <div className={Container}>
@@ -62,7 +61,7 @@ const ProductDetails = React.memo(() => {
                 min={1}
                 id=""
               />
-              <button className={clsx(AddToCart)}>
+              <button className={clsx(AddToCart)} onClick={handleAddToCart}>
                 <i className="fa-solid fa-cart-shopping"></i>Add To Cart
               </button>
             </div>
@@ -72,6 +71,6 @@ const ProductDetails = React.memo(() => {
       <ProductOther />
     </div>
   );
-});
+};
 
 export default ProductDetails;

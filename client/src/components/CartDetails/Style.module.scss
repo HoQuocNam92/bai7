@@ -1,0 +1,72 @@
+@import url("https://fonts.cdnfonts.com/css/gt-america-trial");
+
+.Container {
+  margin: 48px 0;
+  width: 1600px;
+  margin: auto;
+  font-family: "GT America Trial", sans-serif;
+}
+.Images {
+  background: url("/images/bannerCart.jpg") center / cover no-repeat;
+  height: 300px;
+  margin-bottom: 14px;
+}
+.Content {
+  display: grid;
+  grid-template-columns: 60% 40%;
+}
+.Title {
+  font-size: 54px;
+  font-weight: 500;
+  color: rgb(37, 50, 55);
+  margin: 0;
+}
+table {
+  border: 1px solid #ccc;
+  text-align: center;
+}
+th {
+  padding: 10px;
+  width: 200px;
+  border-bottom: 1px solid #ccc;
+  background-color: #f2f2f2;
+}
+
+td {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.OrderDetails {
+  padding-left: 50px;
+}
+
+.Price,
+.Transport {
+  display: flex;
+  padding: 20px 0;
+}
+.Price p,
+.Transport p {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 500;
+  margin-right: 16px;
+}
+.Price span,
+.Transport span {
+  padding: 0;
+  display: flex;
+  align-items: center;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+.Method p {
+  font-size: 16px;
+  margin: 8px 0;
+  font-weight: 400;
+}
+.Method input {
+  margin-right: 4px;
+}

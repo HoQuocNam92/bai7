@@ -39,6 +39,7 @@ export const ProductProvider = ({
       product(id);
     }
   }, [id]);
+
   const handleWishListBtn = (id) => {
     const fectData = async () => {
       try {

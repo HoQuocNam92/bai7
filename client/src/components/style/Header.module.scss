@@ -1,0 +1,55 @@
+.Container {
+  background-color: rgb(243, 246, 247);
+  position: "relative";
+  padding: 15px 50px;
+}
+.Navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 28px;
+}
+.Logo {
+  cursor: pointer;
+}
+.Logo img {
+  width: 200px;
+}
+
+.Menu .Item {
+  display: flex;
+  justify-content: center;
+}
+.Item a {
+  display: block;
+  padding: 0 4px;
+  text-align: center;
+}
+.Item a:hover {
+  font-weight: 600;
+  text-decoration: underline;
+}
+.Item a::before {
+  content: attr(title);
+  display: block;
+  font-weight: 600;
+  height: 0;
+  overflow: hidden;
+}
+
+.Search input {
+  background-color: #fff;
+  padding: 8px;
+  width: 500px;
+  border: 1px solid #000;
+  margin: 0 auto;
+  display: block;
+}
+.Icons {
+  display: flex;
+  position: relative;
+}
+.Icons i {
+  padding: 0 8px;
+  cursor: pointer;
+}

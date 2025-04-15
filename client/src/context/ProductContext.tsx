@@ -6,9 +6,9 @@ interface AuthContextType {
   setId: (id: number) => void;
 }
 interface TypeProduct {
+  id: number;
   title: string;
   price: number;
-  stock_quantity: number;
   description: string;
   author: string;
   image_url: string;
@@ -24,21 +24,13 @@ export const ProductProvider = ({
   const [productDetail, setProductDetail] = useState<TypeProduct[]>([]);
   const [id, setId] = useState<number>(0);
   const [product, setProduct] = useState<any>([]);
+
   useEffect(() => {
-    const product = async (id: number) => {
-      const response = await axios.get(
-        `http://localhost:8080/findProduct/${id}`,
-      );
-      if (response.status === 200) {
-        setProductDetail(response.data);
-      } else {
-        console.error("Error fetching data:", response.statusText);
-      }
-    };
-    if (id > 0) {
-      product(id);
+    if (id > 0 && product.length > 0) {
+      const foundProduct = product.find((item) => item.id === id) || null;
+      setProductDetail(foundProduct);
     }
-  }, [id]);
+  }, [id, product]);
 
   const handleWishListBtn = (id) => {
     const fectData = async () => {
@@ -59,9 +51,16 @@ export const ProductProvider = ({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/findProduct");
+        const response = await axios.get("http://localhost:8080/api/products");
         if (response.status === 200) {
-          setProduct(response.data);
+          const formattedData = response.data.map((item) => ({
+            ...item,
+            formattedPrice: new Intl.NumberFormat("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            }).format(item.price),
+          }));
+          setProduct(formattedData);
         }
       } catch (error) {
         console.error("Error fetching data:", error);

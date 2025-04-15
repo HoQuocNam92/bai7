@@ -4,7 +4,7 @@ import { CartContext } from "@context/CartContext";
 import { Link } from "react-router-dom";
 
 const Cart = memo(() => {
-  const { cart, total } = useContext(CartContext) as any;
+  const { cart, total, handleDelete } = useContext(CartContext) as any;
   const {
     Container,
     Cart,
@@ -16,6 +16,7 @@ const Cart = memo(() => {
     CheckOut,
     ViewCart,
     Text,
+    CloseBtn,
     Notfound,
   } = styles;
   return (
@@ -27,22 +28,28 @@ const Cart = memo(() => {
         ) : (
           <>
             {cart.map((item) => (
-              <div className={Content}>
-                <img src={item.image_url} alt="" />
+              <div key={item.id} className={Content}>
+                <img src={item.image_url} alt="image" />
                 <div className={Text}>
                   <p className={Name}>{item.title}</p>
                   <p className={Total}>
-                    {item.quantity} x {item.price}
+                    {item.quantity} x {item.formatCast}
                   </p>
                 </div>
-                <button>
+                <div className={CloseBtn} onClick={() => handleDelete(item.id)}>
                   <i className="fa-solid fa-xmark"></i>
-                </button>
+                </div>
               </div>
             ))}
 
             <div className={Details}>
-              <p className={Subtotal}>Subtotal : {total} </p>
+              <p className={Subtotal}>
+                Subtotal :{" "}
+                {total.toLocaleString("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                })}
+              </p>
               <button className={CheckOut}>
                 <Link to="/Checkout">
                   <i className="fa-solid fa-cart-shopping"></i> CheckOut

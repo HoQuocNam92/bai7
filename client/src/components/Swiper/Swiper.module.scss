@@ -1,35 +1,39 @@
-.product-item {
+.Container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: 1622px;
+  margin: 0 auto 32px auto;
+}
+
+.Container .Item {
   display: flex;
+  justify-content: space-between;
   flex-direction: column;
-  justify-content: center; // Căn giữa theo chiều dọc
-  align-items: center; // Căn giữa theo chiều ngang
-  text-align: center; // Căn giữa văn bản trong các phần tử
-  width: 100%; // Giữ chiều rộng của mỗi ô là 100% của Swiper
+  text-align: left;
+  padding: 0 16px;
+  height: 100%;
+}
+.Item h2 {
+  font-size: 20px;
+  font-weight: bold;
+}
+.Item .Author {
+  color: #7a7a7a;
+  padding: 10px 0;
+}
 
-  // Căn chỉnh hình ảnh
-  img {
-    width: 80%; // Giảm kích thước hình ảnh để có khoảng cách xung quanh
-    height: auto;
-    object-fit: cover;
-    margin-bottom: 10px; // Thêm khoảng cách giữa hình ảnh và các phần tử phía dưới
-  }
-
-  // Căn chỉnh tiêu đề
-  h2 {
-    font-size: 12px;
-    margin: 5px 0; // Thêm khoảng cách trên và dưới tiêu đề
-  }
-
-  // Căn chỉnh tác giả
-  p {
-    font-size: 10px;
-    margin: 5px 0; // Thêm khoảng cách trên và dưới tác giả
-  }
-
-  // Căn chỉnh giá
-  .price {
-    font-size: 12px;
-    font-weight: bold;
-    margin-top: 5px;
-  }
+.Item .Price {
+  font-size: 18px;
+}
+.Item button {
+  background-color: rgb(17, 153, 85);
+  padding: 12px 24px;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  width: 50%;
+  margin-top: 4px;
+}
+.Item button:hover {
+  opacity: 0.6;
 }

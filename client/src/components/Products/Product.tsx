@@ -1,14 +1,17 @@
 import { useContext, useEffect, useState } from "react";
 import styles from "./Style.module.scss";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import { ProductContext } from "@context/ProductContext";
 import { CartContext } from "@context/CartContext";
-const TotalPage = 12;
+import { toast, ToastContainer } from "react-toastify";
 const Product = function Products() {
-  const { handleCart } = useContext(CartContext) as any;
+  const { handleAddCart } = useContext(CartContext) as any;
   const { product } = useContext(ProductContext) as any;
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(8);
+  const handlecart = (id) => {
+    handleAddCart(id, 1);
+    toast.success("Thêm giỏ hàng thành công");
+  };
   const {
     Container,
     Title,
@@ -20,45 +23,31 @@ const Product = function Products() {
     ProductAuthor,
     ProductPrice,
     AddToCart,
-    pagination,
-    handlePagination,
-    active,
-    PaginationBtn,
+    LoadMore,
   } = styles;
-  const handleWishListBtn = (id) => {
-    const fectData = async () => {
-      try {
-        const response = await axios.post(
-          `http://localhost:8080/addToWishlist/${id}`,
-        );
-        if (response.status === 200) {
-          alert("Thêm vào yêu thích thành công!");
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fectData();
+  const handleWishListBtn = (id) => {};
+
+  const handleLoadMore = () => {
+    setCurrentPage(currentPage + 4);
   };
 
-  const handlePaginationNext = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
-  };
-  const handlePaginationPrev = () => {
-    setCurrentPage((prevPage) => prevPage - 1);
-  };
-  const buttons = Math.ceil(product.length / TotalPage);
-  const startIndex = currentPage * TotalPage;
-  const endIndex = startIndex + TotalPage;
-
-  const products = product.slice(startIndex, endIndex);
+  const products = product.slice(0, currentPage);
 
   return (
     <div className={Container}>
+      <ToastContainer
+        position="top-left"
+        autoClose={100}
+        closeOnClick={true}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <h2 className={Title}>What's Good ?</h2>
       <div className={ProductList}>
         {products.map((item) => (
-          <div className={Product}>
+          <div key={item.id} className={Product}>
             <div className={ProductImage}>
               <img loading="lazy" src={item.image_url} alt="item" />
               <button
@@ -72,12 +61,12 @@ const Product = function Products() {
               <Link to={`/book/${item.id}`}>{item.title}</Link>
             </h2>
             <p className={ProductAuthor}>{item.author}</p>
-            <p className={ProductPrice}>{item.price} </p>
+            <p className={ProductPrice}>{item.formattedPrice}</p>
             <button
               style={{ cursor: "pointer" }}
               className={AddToCart}
               onClick={() => {
-                handleCart(item.id);
+                handlecart(item.id);
               }}
             >
               <i className="fa-solid fa-cart-shopping"></i>Add To Cart
@@ -85,31 +74,8 @@ const Product = function Products() {
           </div>
         ))}
       </div>
-      <div className={pagination}>
-        <button
-          className={handlePagination}
-          disabled={currentPage === 0}
-          onClick={handlePaginationPrev}
-        >
-          <i className="fa-solid fa-arrow-left"></i>
-        </button>
-        {Array.from({ length: buttons }, (_, index) => (
-          <button
-            key={index}
-            disabled={currentPage === index}
-            onClick={() => setCurrentPage(index)}
-            className={`${PaginationBtn}  ${currentPage === index ? active : ""}`}
-          >
-            {index + 1}
-          </button>
-        ))}
-        <button
-          disabled={currentPage === buttons - 1}
-          onClick={handlePaginationNext}
-          className={handlePagination}
-        >
-          <i className="fa-solid fa-arrow-right"></i>
-        </button>
+      <div onClick={handleLoadMore} className={LoadMore}>
+        <button>LOAD MORE...</button>
       </div>
     </div>
   );

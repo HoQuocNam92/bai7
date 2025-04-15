@@ -1,10 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Style.module.scss";
 import { CartContext } from "@context/CartContext";
-function CartDetails() {
-  console.log("Cart Details render ");
+import clsx from "clsx";
+import { Link } from "react-router-dom";
+import { style } from "@mui/system";
 
-  const { cart, total } = React.useContext(CartContext) as any;
+function CartDetails() {
+  const { cart, total, handleDelete, handleAddCart } = React.useContext(
+    CartContext,
+  ) as any;
+
+  // Sử dụng state để lưu trữ số lượng riêng biệt cho mỗi sản phẩm trong giỏ hàng
+  const [quantities, setQuantities] = useState<{ [id: number]: number }>({});
+
+  // Cập nhật số lượng cho từng sản phẩm trong giỏ hàng
+  const handleQuantityChange = (id: number, value: number) => {
+    setQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [id]: value,
+    }));
+  };
+
+  // Khi số lượng thay đổi, gọi lại handleAddCart để cập nhật số lượng mới
+  useEffect(() => {
+    Object.keys(quantities).forEach((id) => {
+      const quantity = quantities[parseInt(id)];
+      handleAddCart(parseInt(id), quantity); // Cập nhật số lượng cho từng sản phẩm
+    });
+  }, [quantities]);
+
   const {
     Container,
     Title,
@@ -12,67 +36,122 @@ function CartDetails() {
     TableCart,
     Content,
     OrderDetails,
-    Price,
-    Transport,
-    Method,
+    TableLeft,
+    Options,
+    Subtotal,
+    Voucher,
+    Box,
+    ReturnToShop,
+    Return,
+    CLoseBtn,
   } = styles;
+
   return (
     <div className={Container}>
       <div>
         <div className={Images}></div>
-        <h2 className={Title}> Cart</h2>
+        <h2 className={Title}>Cart</h2>
         <hr />
         <div className={Content}>
           <div className={TableCart}>
-            <table>
-              <tr>
-                <th>Thumbnail</th>
-                <th>Product Title</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Total</th>
-              </tr>
-
-              {cart.map((item) => (
+            <table className={TableLeft}>
+              <thead>
                 <tr>
-                  <td>
-                    <img loading="lazy" src={item.image_url} alt="" />
-                  </td>
-                  <td>{item.title}</td>
-                  <td>{item.price} </td>
-                  <td>{item.quantity}</td>
-                  <td>{item.total} </td>
+                  <th>Thumbnail</th>
+                  <th>Product Title</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                  <th>Total</th>
                 </tr>
-              ))}
+              </thead>
+              <tbody>
+                {cart.map((item) => (
+                  <tr key={item.id}>
+                    <td>
+                      <img
+                        loading="lazy"
+                        src={item.image_url}
+                        alt={item.title}
+                      />
+                    </td>
+                    <td>{item.title}</td>
+                    <td>{item.formatCast} </td>
+                    <td>
+                      <input
+                        type="number"
+                        value={quantities[item.id] || item.quantity} // Hiển thị số lượng hiện tại
+                        onChange={(e) =>
+                          handleQuantityChange(item.id, Number(e.target.value))
+                        }
+                      />
+                    </td>
+                    <td className={CLoseBtn}>
+                      {item.formattedTotal}
+                      <i
+                        onClick={() => handleDelete(item.id)}
+                        className="fa-solid fa-xmark"
+                      ></i>
+                    </td>
+                  </tr>
+                ))}
+                <tr className={Voucher}>
+                  <td colSpan={2}>
+                    <input type="text" placeholder="Coupon Code" />
+                  </td>
+                  <td colSpan={3}>
+                    <button>Apply Coupon</button>
+                  </td>
+                </tr>
+              </tbody>
             </table>
+            <div className={ReturnToShop}>
+              <Link to="/">
+                <span className={Return}>
+                  <span>
+                    <i className="fa-solid fa-arrow-left"></i>
+                  </span>
+                  <span>Return To Shop</span>
+                </span>
+              </Link>
+            </div>
           </div>
           <div className={OrderDetails}>
             <h2 className={Title}>Order Detail</h2>
-
-            <div className={Price}>
-              <p> Subtotal</p> <span>{total} </span>
-            </div>
-
-            <div className={Transport}>
-              <p>Shipping </p>
-
-              <div className={Method}>
-                <p>
-                  <input type="radio" name="shipper" id="cost" />
-                  <label htmlFor="cost">Standard Shipping: 35,000 ₫</label>
-                </p>
-                <p>
-                  <input type="radio" name="shipper" id="local" />
-                  <label htmlFor="local">
-                    Local pickup (available at Bluish after 12pm of next working
-                    day) Shipping options will be updated during checkout.
-                  </label>
+            <div>
+              <div className={clsx(Box)}>
+                <p>Subtotal</p>
+                <p className={Subtotal}>
+                  {total.toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
                 </p>
               </div>
-            </div>
+              <div className={clsx(Box, Options)}>
+                <p>Shipping</p>
+                <p>
+                  <span>
+                    <input type="checkbox" />
+                    Standard Shipping: 35,000 ₫
+                  </span>
+                  <span>
+                    <input type="checkbox" />
+                    Local pickup (available at Bluish after 12pm of next working
+                    day) Shipping options will be updated during checkout.
+                  </span>
+                </p>
+              </div>
+              <div className={Box}>
+                <p>Total</p>
+                <p>
+                  {total.toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </p>
+              </div>
 
-            <div className={Price}>
-              <p>Total :</p> <span>{total} </span>
+              <button>Go To Secure Checkout</button>
             </div>
           </div>
         </div>

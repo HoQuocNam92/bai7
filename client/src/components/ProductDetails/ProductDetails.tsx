@@ -5,20 +5,24 @@ import { ProductContext } from "@context/ProductContext";
 import { useParams } from "react-router-dom";
 import ProductOther from "@components/Swiper/Swiper";
 import { CartContext } from "@context/CartContext";
+import { toast, ToastContainer } from "react-toastify";
 
 const ProductDetails = () => {
-  const { handleCart } = useContext(CartContext) as any;
+  const { handleAddCart } = useContext(CartContext) as any;
   const { id } = useParams();
 
   const { productDetail, setId } = useContext(ProductContext) as any;
+
   const [quantity, setQuantity] = useState(1);
   useEffect(() => {
-    if (id) {
-      setId(Number(id));
+    if (!id) {
+      return;
     }
+    console.log("CHECK DI", id);
+    setId(Number(id));
   }, [id]);
 
-  const products = productDetail[0];
+  const products = productDetail;
   const {
     Container,
     ImageProduct,
@@ -37,21 +41,23 @@ const ProductDetails = () => {
     return <div>Loading...</div>;
   }
   const handleAddToCart = () => {
-    handleCart(Number(id), quantity);
+    toast.success("Thêm giỏ hàng thành công");
+    handleAddCart(Number(id), quantity);
   };
   return (
     <div>
+      <ToastContainer autoClose={100} />
       <div className={Container}>
         <div className={Section}>
           <div className={ImageProduct}>
-            <img loading="lazy" src={products.image_url} alt="" />
+            <img loading="lazy" src={products.image_url} alt="image" />
           </div>
           <div className={clsx(Text)}>
             <h2 className={clsx(TextName)}>{products.title}</h2>
             <p className={clsx(Author)}>{products.author}</p>
             <p className={clsx(Meta)}>{products.meta}</p>
             <p className={clsx(Description)}>{products.description}</p>
-            <p className={clsx(Price)}>Giá : {products.price} VND</p>
+            <p className={clsx(Price)}>Giá : {products.formattedPrice} </p>
             <div className={Btn}>
               <input
                 type="number"

@@ -49,32 +49,39 @@
   font-weight: 400;
   text-align: justify;
 }
-.Content button {
+.Content .CloseBtn {
+  position: relative;
+}
+.CloseBtn i {
   position: absolute;
-  right: 10px;
+  top: 6px;
 }
-.Content i {
-  font-size: 14px;
+.CloseBtn i:hover {
+  opacity: 0.6;
 }
-
 .Subtotal {
   text-align: left;
   font-size: 18px;
   font-weight: 400;
 }
 .CheckOut {
-  background-color: rgb(92, 215, 153);
+  background-color: rgb(15, 184, 99);
   color: #fff;
   padding: 12px 20px;
   border: none;
   border-radius: 4px;
   width: 100%;
   font-size: 16px;
-
   margin: 16px 0;
+  cursor: pointer;
 }
-
+.CheckOut:hover {
+  opacity: 0.6;
+}
 .ViewCart {
-  color: rgb(92, 215, 153);
+  color: rgb(15, 184, 99);
   font-size: 16px;
+}
+.ViewCart:hover {
+  opacity: 0.6;
 }

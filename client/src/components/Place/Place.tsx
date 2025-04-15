@@ -9,6 +9,7 @@ function Place() {
         <div className={Content}>
           <div className={Location}></div>
           <div className={Location}></div>
+          <div className={Location}></div>
         </div>
         <span>
           <a href="">VIEW ALL LOCATIONS</a>

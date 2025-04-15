@@ -1,11 +1,7 @@
-const express = require("express");
-const routes = express.Router();
-// Require the controller modules
+const router = require("express").Router();
 
 const userController = require("../controllers/user.controller");
 
-routes.post("/login", userController.login);
-routes.post("/register", userController.register);
-routes.post("/refresh", userController.refreshToken);
-
-module.exports = routes;
+router.get("/me", userController.getMe);
+router.put("/me", userController.updateMe);
+module.exports = router;

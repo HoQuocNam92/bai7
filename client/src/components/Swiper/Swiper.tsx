@@ -1,31 +1,35 @@
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ProductContext } from "@context/ProductContext";
-import "swiper/css"; // CSS cơ bản cho Swiper
-import "swiper/css/navigation"; // CSS cho navigation (nút điều hướng)
+import style from "./Swiper.module.scss";
 
+const getRandomItems = (list: string[], count: number) => {
+  const Shuffed = [...list].sort(() => 0.5 - Math.random());
+  return Shuffed.slice(0, count);
+};
 const ProductOther = () => {
   const { product } = useContext(ProductContext) as any;
+  const [items, setItems] = useState([]);
+  useEffect(() => {
+    if (!product) {
+      return;
+    }
+    setItems(getRandomItems(product, 4));
+  }, []);
+
+  const { Container, Item, Author, Price } = style;
 
   return (
-    <Swiper
-      spaceBetween={0} // Loại bỏ hoàn toàn khoảng cách giữa các slide
-      slidesPerView={4} // Hiển thị 4 sản phẩm mỗi lần
-      navigation // Kích hoạt nút điều khiển (next, prev)
-      modules={[Navigation]} // Kích hoạt module Navigation
-    >
-      {product.map((item: any) => (
-        <SwiperSlide key={item.id}>
-          <div className="product-item">
-            <img loading="lazy" src={item.image_url} alt={item.title} />
-            <h2>{item.title}</h2>
-            <p>{item.author}</p>
-            <p className="price">{item.price} VND</p>
-          </div>
-        </SwiperSlide>
+    <div className={Container}>
+      {items.map((item) => (
+        <div className={Item}>
+          <img src={item.image_url} alt="" />
+          <h2>{item.title}</h2>
+          <p className={Author}>{item.author}</p>
+          <p className={Price}>{item.formattedPrice}</p>
+          <button>Add To Cart</button>
+        </div>
       ))}
-    </Swiper>
+    </div>
   );
 };
 

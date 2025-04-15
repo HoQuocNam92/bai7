@@ -22,6 +22,7 @@
 }
 .Item a {
   display: block;
+  font-size: 18px;
   padding: 0 4px;
   text-align: center;
 }
@@ -52,4 +53,63 @@
 .Icons i {
   padding: 0 8px;
   cursor: pointer;
+}
+.User {
+  position: relative;
+}
+.User span {
+  padding: 0;
+  cursor: pointer;
+}
+.User:hover .ModalUser {
+  display: block;
+}
+.ModalUser {
+  position: absolute;
+  background-color: #fff;
+  box-sizing: 0px 0px 16px rgba(255, 255, 255, 0.8);
+  border-radius: 2px;
+  z-index: 9999;
+  top: 30px;
+  left: 10px;
+  display: none;
+}
+
+.ModalUser::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -10px;
+  transform: translateX(-50%);
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #000;
+}
+.ModalUser::after {
+  content: "";
+  position: absolute;
+  top: -14px;
+  width: 116px;
+  height: 14px;
+}
+
+.ModalUser p {
+  padding: 8px;
+  width: 90px;
+  cursor: pointer;
+  text-align: center;
+}
+.ModalUser p:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+.Quantity {
+  position: absolute;
+  top: -20px;
+  left: 20px;
+  z-index: 99999 !important;
+  padding: 2px;
+  border-radius: 100%;
+  background-color: greenyellow;
 }

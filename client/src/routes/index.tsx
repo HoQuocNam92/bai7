@@ -1,9 +1,9 @@
 import { lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
-import MainLayout from "@layouts/mainLayout";
-import Cart from "@components/Cart/Cart";
+const User = lazy(() => import("@components/User/User"));
+const Cart = lazy(() => import("@components/Cart/Cart"));
+const MainLayout = lazy(() => import("@layouts/mainLayout"));
 
-// Pages
 const ManagerProduct = lazy(
   () => import("@components/ManagerProduct/ManagerProduct"),
 );
@@ -14,9 +14,8 @@ const CartDetails = lazy(() => import("@components/CartDetails/CartDetails"));
 const OtherProduct = lazy(() => import("@components/Swiper/Swiper"));
 const Profile = lazy(() => import("@components/Profile/Profile"));
 const Banner = lazy(() => import("@components/Banner/Banner"));
-const Dashboard = lazy(() => import("@components/Dashboard/Dashboard"));
-const Login = lazy(() => import("@pages/Login/Login"));
-const Register = lazy(() => import("@pages/Register/Register"));
+const Account = lazy(() => import("@pages/Account/Account"));
+
 const Home = lazy(() => import("@pages/Home/Home"));
 const About = lazy(() => import("@components/About/About"));
 
@@ -32,14 +31,28 @@ export const router = createBrowserRouter([
       { path: "otherProduct", Component: OtherProduct },
       { path: "profile", Component: Profile },
       { path: "banner", Component: Banner },
-      { path: "dashboard", Component: Dashboard },
-      { path: "login", Component: Login },
-      { path: "register", Component: Register },
+      { path: "account", Component: Account },
       { path: "cart", Component: Cart },
     ],
   },
   {
+    path: "/user",
+    Component: MainLayout,
+
+    children: [
+      {
+        index: true,
+        Component: User,
+      },
+      {
+        path: "profile",
+        Component: Profile,
+      },
+    ],
+  },
+  {
     path: "/admin/product",
+
     Component: ManagerProduct,
   },
 ]);

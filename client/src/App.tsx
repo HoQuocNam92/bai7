@@ -1,5 +1,5 @@
 import "@styles/main.scss";
-import { RouterProvider } from "react-router";
+import { RouterProvider, ScrollRestoration } from "react-router";
 import { Suspense } from "react";
 import { router } from "./routes/index";
 import { AuthProvider } from "@context/AuthContext";

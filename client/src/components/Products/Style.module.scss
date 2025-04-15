@@ -94,31 +94,16 @@
   background-color: rgb(15, 107, 61);
 }
 
-.pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
+.LoadMore {
+  text-align: center;
+  margin-top: 24px;
 }
-.handlePagination {
-  margin: 0 4px;
+.LoadMore button {
+  padding: 16px;
+  border: 2px solid #ccc;
+  font-weight: bold;
   cursor: pointer;
-  font-size: 18px;
 }
-.handlePagination:hover {
-  opacity: 0.7;
-}
-.PaginationBtn {
-  background-color: #ccc;
-  padding: 8px 16px;
-  border-radius: 4px;
-  margin: 0 4px;
-  cursor: pointer;
-  &.active {
-    background-color: rgb(15, 107, 61);
-    color: #fff;
-  }
-  &:hover {
-    opacity: 0.7;
-  }
+.LoadMore button:hover {
+  opacity: 0.6;
 }

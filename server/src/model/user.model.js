@@ -1,26 +1,21 @@
 const db = require("../config/db");
 
 class UserModel {
-  static async register(user) {
-    console.log("Register", user);
-    const [result] = await db.query(
-      "INSERT INTO customers (  name, email, password) VALUES (?,?,?)",
-      [user.name, user.email, user.password],
-    );
-    return result.insertId;
+  static async getAllUser() {
+    const [rows] = await db.query("SELECT * FROM customers ");
+    return rows;
   }
-  static async login(user) {
-    const [result] = await db.query(
-      "SELECT * FROM customers WHERE email =? AND password =?",
-      [user.email, user.password],
+  static async editUser(role, id) {
+    const [rows] = await db.query(
+      "UPDATE customers set role = ? where id = ? ",
+      [role, id],
     );
-    return result[0];
+    return rows;
   }
-  static async findOne(email) {
-    const [rows] = await db.query("SELECT * FROM customers where email =  ?", [
-      email,
-    ]);
-    return rows[0];
+  static async deleteUser(id) {
+    const [rows] = await db.query("delete from customers  where id = ? ", [id]);
+    return rows;
   }
 }
+
 module.exports = UserModel;

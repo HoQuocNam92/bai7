@@ -7,22 +7,19 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<void>;
   register: (name: string, email: string, password: string) => Promise<void>;
   logout: () => void;
-  loginStatus: boolean;
-  dataSearch: string;
-  resultSearch: (data: string) => void;
+  userStatus: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<any>(null);
-  const [loginStatus, setLoginStatus] = useState<boolean>(false);
-  const [dataSearch, setDatasearch] = useState<string>("");
+  const [userStatus, setUserStatus] = useState<boolean>(false);
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
-      setLoginStatus(true);
+      setUserStatus(true);
     }
   }, []);
   const login = async (email: string, password: string) => {
@@ -31,13 +28,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         email,
         password,
       });
-      setLoginStatus(true);
+      setUserStatus(true);
       setUser(response.data.user);
       localStorage.setItem("accessToken", response.data.accessToken);
       localStorage.setItem("user", JSON.stringify(response.data.user));
       toast.success("Đăng nhập thành công!");
     } catch (error) {
-      throw new Error("Sai email hoặc mật khẩu!");
+      toast.error("Sai email hoặc mật khẩu!");
     }
   };
 
@@ -48,11 +45,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         email,
         password,
       });
-
       console.log("Đăng ký thành công:", response.data);
       toast.success("Đăng ký thành công!");
     } catch (error) {
-      throw new Error("Đăng ký thất bạsi!");
+      toast.error("Đăng ký thất bại!");
     }
   };
 
@@ -60,11 +56,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("user");
     setUser(null);
-    setLoginStatus(false);
+    setUserStatus(false);
     toast.success("Đăng xuất thành công!");
-  };
-  const resultSearch = (data: string) => {
-    setDatasearch(data);
   };
 
   return (
@@ -74,24 +67,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         login,
         register,
         logout,
-        loginStatus,
-        dataSearch,
-        resultSearch,
+        userStatus,
       }}
     >
-      <ToastContainer
-        position="top-center"
-        autoClose={500}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-
       {children}
     </AuthContext.Provider>
   );

@@ -1,100 +1,102 @@
 import React, { useContext, useEffect, useState, useCallback } from "react";
 import { createContext } from "react";
 import { ProductContext } from "./ProductContext";
+import axios from "axios";
 interface CartContextType {
-  handleCart: (id: number, quantity: number) => void;
-  cart: any[];
+  handleAddCart: (id: number, quantity: number) => void;
+  cart: Products[];
   total: number;
+  handleDelete: (id: number) => void;
+}
+
+interface Products {
+  id: number;
+  title: string;
+  author: string;
+  price: number;
+  image_url: string;
   quantity: number;
 }
 
 export const CartContext = createContext<CartContextType | undefined>(
   undefined,
 );
-function formatMoneyVND(number) {
-  return number.toLocaleString("vi-VN", {
-    style: "currency",
-    currency: "VND",
-  });
-}
+
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
-  const [cart, setCart] = useState<any[]>([]);
-
+  const [cart, setCart] = useState<Products[]>([]);
   const [total, setTotal] = useState<number>(0);
-
-  const [quantity, setQuantity] = useState<number>(0);
-  const { product } = useContext(ProductContext) as any;
-  const handleCart = (id: number, quantity: number) => {
-    const data = product.filter((item) => item.id === id);
+  const { product } = useContext(ProductContext);
+  const handleAddCart = async (id: number, quantity: number) => {
+    const data = product.find((item) => item.id === id);
     if (!data) {
-      console.error("Không tìm thấy sản phẩm với id:", id);
       return;
     }
-    if (cart.length === 0) {
-      return setCart((prev) => [
-        ...prev,
-        {
-          id: data[0].id,
-          title: data[0].title,
-          price: data[0].price,
-          image_url: data[0].image_url,
-          quantity: quantity || 1,
-          total: formatMoneyVND(data[0].price),
-        },
-      ]);
-    }
+    const totalForProduct = Number(data.price) * quantity;
 
-    const check = cart.find((item) => item.id === id);
-    if (check) {
-      setCart((prev) =>
-        prev.map((item) => {
-          if (item.id === id) {
-            return {
-              ...item,
-              quantity: item.quantity + quantity || 1,
-              total: formatMoneyVND(item.price * (item.quantity + 1)),
-            };
-          }
-          return item;
-        }),
-      );
-    } else {
-      setCart((prev) => [
-        ...prev,
-        {
-          id: data[0].id,
-          title: data[0].title,
-          price: data[0].price,
-          image_url: data[0].image_url,
-          quantity: quantity || 1,
-          total: formatMoneyVND(data[0].price),
-        },
-      ]);
+    const payload = {
+      id: data.id,
+      title: data.title,
+      price: data.price,
+      image_url: data.image_url,
+      quantity: quantity,
+      total: totalForProduct,
+    };
+    try {
+      await axios.post("http://localhost:8080/api/cart", payload);
+      await getData();
+    } catch (error) {
+      throw new Error("Error" + error);
     }
   };
+  const handleDelete = async (id: number) => {
+    const data = product.find((item) => item.id === id);
+    if (!data) {
+      return;
+    }
+    try {
+      await axios.post(`http://localhost:8080/deleteProduct/${id}`);
+      await getData();
+    } catch (error) {
+      throw new Error("Error" + error);
+    }
+  };
+  const getData = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/api/cart");
+      if (response.status === 200) {
+        const formatted = response.data.map((item) => ({
+          ...item,
+          formatCast: new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(item.price),
 
+          formattedTotal: new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(item.total),
+        }));
+
+        setCart(formatted);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
-    let totalPrice = cart.reduce(
-      (total, item) => (total += item.price * item.quantity),
+    getData();
+  }, []);
+  useEffect(() => {
+    const total = cart.reduce(
+      (total, item) => total + item.price * item.quantity,
       0,
     );
 
-    setTotal(formatMoneyVND(totalPrice));
+    setTotal(total);
   }, [cart]);
 
-  const handleQuantity = useCallback(() => {
-    let totalQuantity = cart.reduce(
-      (total, item) => (total += item.quantity),
-      0,
-    );
-    setQuantity(totalQuantity);
-  }, [cart]);
-
-  useEffect(() => {
-    handleQuantity();
-  }, [handleQuantity]);
   return (
-    <CartContext.Provider value={{ handleCart, cart, total, quantity }}>
+    <CartContext.Provider value={{ handleAddCart, handleDelete, cart, total }}>
       {children}
     </CartContext.Provider>
   );

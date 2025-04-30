@@ -4,9 +4,9 @@ const AuthService = require("../services/auth.service");
 
 const LoginWithGoogle = ()=>{
   passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: process.env.GOOGLE_CALLBACK_URL,
+    clientID: process.env.CLIENTID,
+    clientSecret: process.env.CLIENTSECRET,
+    callbackURL: process.env.CALLBACKURL,
   }, async (accessToken, refreshToken, profile, done) => {
     try {
       const google_id = profile.id;

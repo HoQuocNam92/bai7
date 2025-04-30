@@ -7,6 +7,8 @@ interface AuthContextType {
   more: boolean;
   setPage: (number) => void;
   page: number;
+  isLoading: Boolean;
+  pageSize: number;
 }
 interface TypeProduct {
   id: number;
@@ -29,6 +31,8 @@ export const ProductProvider = ({
   const [product, setProduct] = useState<any>([]);
   const [more, setMore] = useState<boolean>(null);
   const [page, setPage] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<Boolean>(true);
+  const pageSize = 12;
   useEffect(() => {
     if (id > 0 && product.length > 0) {
       const foundProduct = product.find((item) => item.id === id) || null;
@@ -54,7 +58,7 @@ export const ProductProvider = ({
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/products?page=${page}`,
+        `http://localhost:8080/api/products?pageSize=${pageSize}&page=${page}`,
       );
       if (response.status === 200) {
         const hasMore = response.data.hasMore;
@@ -72,6 +76,7 @@ export const ProductProvider = ({
             (newItem) => !prev.some((item) => item.id === newItem.id),
           ),
         ]);
+        setIsLoading(false)
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -86,7 +91,7 @@ export const ProductProvider = ({
 
   return (
     <ProductContext.Provider
-      value={{ product, productDetail, setId, more, page, setPage }}
+      value={{ product, productDetail, setId, more, page, setPage, isLoading, pageSize }}
     >
       {children}
     </ProductContext.Provider>

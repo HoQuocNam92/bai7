@@ -5,15 +5,17 @@ const productController = {
   getAllProducts: async (req, res) => {
     try {
       const page = parseInt(req.query.page) || 0;
-      const initial = 12;
+      const pageSize = parseInt(req.query.pageSize) || 0;
+      console.log("🚀 ~ getAllProducts: ~ pageSize:", pageSize)
+     
       const extra = 4;
       let limit, offset;
       if (page === 0) {
-        limit = initial;
+        limit = pageSize;
         offset = 0;
       } else {
         limit = extra;
-        offset = initial + (page - 1) * extra;
+        offset = pageSize + (page - 1) * extra;
       }
       const cacheKey = `products:${limit}:${offset}`;
       const cacheData = await client.get(cacheKey);

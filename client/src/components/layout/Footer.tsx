@@ -1,8 +1,7 @@
-import React from "react";
 import style from "../style/Footer.module.scss";
 import clsx from "clsx";
 
-const Footer = () => {
+const footer = () => {
   const {
     Footer,
     Logo,
@@ -100,4 +99,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default footer;

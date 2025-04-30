@@ -1,0 +1,63 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.card {
+    max-width: 200px;
+    background-color: #fff;
+    box-shadow: 0px 0px 5px 3px #0000004f;
+    margin: 48px auto;
+    padding: 10px;
+}
+
+.card_image,
+.text_title,
+.text_description,
+.price {
+    position: relative;
+    margin-bottom: 4px;
+    overflow: hidden;
+
+}
+
+.loading .card_image::before,
+.loading .text_title::before,
+.loading .text_description::before,
+.loading .price::before {
+    position: absolute;
+    content: '';
+    background-color: #dddddd;
+    inset: 0;
+}
+
+.loading .card_image::after,
+.loading .text_title::after,
+.loading .text_description::after,
+.loading .price::after {
+    position: absolute;
+    content: '';
+    inset: 0;
+    width: 100%;
+    background-image: linear-gradient(to right, #dddddd, #fff 50%, #dddddd);
+    animation: skeleton 2s infinite alternate;
+}
+
+
+
+
+
+@keyframes skeleton {
+    from {
+        left: -50%;
+    }
+
+    to {
+        left: 50%;
+    }
+}
+
+img {
+    width: 100%;
+}

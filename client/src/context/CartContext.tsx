@@ -21,6 +21,7 @@ interface Products {
 export const CartContext = createContext<CartContextType | undefined>(
   undefined,
 );
+import { toast, ToastContainer } from "react-toastify";
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const token = localStorage.getItem("accessToken");
@@ -29,6 +30,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [total, setTotal] = useState<number>(0);
   const { product } = useContext(ProductContext);
   const handleAddCart = async (id: number, quantity: number) => {
+    console.log("Check id", id)
     const data = product.find((item) => item.id === id);
     if (!data) {
       return;
@@ -62,6 +64,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         headers: { Authorization: `Bearer ${token}` },
       });
       await getData();
+      toast.success("Xóa sản phẩm thành công ")
     } catch (error) {
       throw new Error("Error" + error);
     }
@@ -105,6 +108,8 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <CartContext.Provider value={{ handleAddCart, handleDelete, cart, total }}>
+      <ToastContainer autoClose={100} />
+
       {children}
     </CartContext.Provider>
   );

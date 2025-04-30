@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState, memo } from "react";
+import { useContext, useEffect, useState, } from "react";
 import styles from "./Style.module.scss";
 import clsx from "clsx";
 import { ProductContext } from "@context/ProductContext";
 import { useParams } from "react-router-dom";
 import ProductOther from "@components/Swiper/Swiper";
 import { CartContext } from "@context/CartContext";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 const ProductDetails = () => {
   const { handleAddCart } = useContext(CartContext) as any;
@@ -41,12 +41,13 @@ const ProductDetails = () => {
     return <div>Loading...</div>;
   }
   const handleAddToCart = () => {
-    toast.success("Thêm giỏ hàng thành công");
     handleAddCart(Number(id), quantity);
+    toast.success("Thêm giỏ hàng thành công");
   };
+
+
   return (
     <div>
-      <ToastContainer autoClose={100} />
       <div className={Container}>
         <div className={Section}>
           <div className={ImageProduct}>

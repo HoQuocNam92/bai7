@@ -1,4 +1,6 @@
 import { createContext, useEffect, useState } from "react";
+import axiosInstance from "@utils/axiosInstance";
+
 import axios from "axios";
 interface AuthContextType {
   productDetail: TypeProduct[];
@@ -57,8 +59,8 @@ export const ProductProvider = ({
   };
   const fetchData = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:8080/api/products?pageSize=${pageSize}&page=${page}`,
+      const response = await axiosInstance.get(
+        `/products?pageSize=${pageSize}&page=${page}`,
       );
       if (response.status === 200) {
         const hasMore = response.data.hasMore;

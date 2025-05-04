@@ -1,12 +1,16 @@
 const db = require("../config/db");
 
 class UserModel {
+  static async register (user) {
+    const {name , email , password} = user;
+    const [users] = await db.query("INSERT INTO customers (userName, email , password) VALUES (?, ?, ?)" ,[name , email , password]);
+    return users;
+  }
   static async getAllUser() {
     const [rows] = await db.query("SELECT * FROM customers");
     return rows;
   }
   static async updatePassword(userId, hashPassword) {
-    console.log("user id , newpassword", userId);
     const [rows] = await db.query(
       "update customers set password = ? where id = ?",
       [hashPassword, userId],
@@ -31,6 +35,12 @@ class UserModel {
     const [rows] = await db.query("delete from customers where id = ? ", [id]);
     return rows;
   }
+  static async findID(id) {
+    const [row] = await db.query("Select * from customers where id = ? ", [
+      id,
+    ]);
+    return row[0];
+  }
   static async findOne(email) {
     const [row] = await db.query("Select * from customers where email = ? ", [
       email,
@@ -39,9 +49,6 @@ class UserModel {
   }
   static async updateProfile(props){
     const {userName , phone ,dob , gender , email , id}  = props;
-    console.log("Check id" , id)
-    console.log("Check userName" , userName);
-    console.log("Check email" , email);
     const [row] = await db.query("update customers set userName = ?  ,email = ? , phone = ? , dob = ? , gender = ? where id = ?" , 
 
       [userName , email ,  phone ,dob , gender   , id]

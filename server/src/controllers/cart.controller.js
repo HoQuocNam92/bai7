@@ -3,7 +3,9 @@ const CartService = require("../services/cart.service");
 class CartController {
   static async AddCart(req, res) {
     try {
-      const result = await CartService.AddCart(req.body);
+      const id =req.user.userId;
+
+      const result = await CartService.AddCart(req.body , id);
       res.json(result);
     } catch (err) {
       res.status(500).json({ error: err.message });
@@ -12,7 +14,10 @@ class CartController {
 
   static async GetCart(req, res) {
     try {
-      const result = await CartService.GetCart();
+      const id =req.user.userId;
+       
+      
+      const result = await CartService.GetCart(id);
       res.json(result);
     } catch (err) {
       res.status(500).json({ error: err.message });

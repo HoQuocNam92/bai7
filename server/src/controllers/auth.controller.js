@@ -1,7 +1,18 @@
 const AuthService = require("../services/auth.service");
-const passport = require("../../src/config/Passport");
+ 
 const jwt = require("jsonwebtoken")
 const AuthController = {
+  refreshToken: async (req, res) => {
+    try {
+      const token = req.cookies.refreshToken;
+      if (!token) return res.sendStatus(401);
+      const { accessToken, user } = await AuthService.refreshToken(token);
+      res.json({ accessToken, user });
+    } catch (err) {
+      res.status(403).json({ message: "Invalid refresh token" });
+    }
+  },
+  
   register: async (req, res) => {
     try {
       const user = await AuthService.register(req.body);
@@ -13,11 +24,16 @@ const AuthController = {
 
   login: async (req, res) => {
     try {
-      const data = await AuthService.login(req.body);
-      if (!data) {
-        return res.json({ message: "Not found user ", user: data });
+      const {accessToken , user , refreshToken} = await AuthService.login(req.body);
+    
+      if (!user) {
+        return res.json({ message: "Not found user ", user: user });
       }
-      res.json(data);
+      res.cookie("refreshToken" , refreshToken , {
+        httpOnly: true,
+        maxAge : 7 * 24 * 60 * 60* 1000
+      })
+      res.json({accessToken , user });
     } catch (err) {
       res.status(401).json({ message: err.message });
     }
@@ -25,7 +41,6 @@ const AuthController = {
   forgotPassword: async (req, res) => {
     try {
       const { email } = req.body;
-      console.log("Check");
       const user = await AuthService.FindOne(email);
       if (!user) return res.status(400).send("User not found");
       await AuthService.forgotPassword(user);

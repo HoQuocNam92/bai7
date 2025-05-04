@@ -47,7 +47,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/admin", adminRoutes);
-app.use("/order", vnpayRoutes);
+app.use("/api/order", vnpayRoutes);
 app.listen(PORT, () => {
   console.log("http://localhost:8080");
 });

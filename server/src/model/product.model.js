@@ -18,13 +18,11 @@ class ProductModel {
   }
 
   static async findAll(limit, offset) {
-    console.log("CHECK LIMIT ", offset);
     const [data] = await db.query(
       "SELECT * FROM book order by created_at desc limit ? offset ?",
       [limit, offset],
     );
     const [[{ total }]] = await db.query("select count(*) as total from book");
-    console.log("Check total", total);
     return { data, total };
   }
 

@@ -1,16 +1,16 @@
 const CartModel = require("../model/cart.model");
 class CartService {
-  static async AddCart(product) {
+  static async AddCart(product ,id) {
     try {
-      return await CartModel.AddCart(product);
+      return await CartModel.AddCart(product, id);
     } catch (error) {
       throw new Error("Error when adding to cart");
     }
   }
 
-  static async GetCart() {
+  static async GetCart(id) {
     try {
-      return await CartModel.GetCart();
+      return await CartModel.GetCart(id);
     } catch (error) {
       throw new Error("Error when retrieving cart items");
     }

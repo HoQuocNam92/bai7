@@ -2,8 +2,26 @@ const userModel = require("../model/user.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
-
+const UserModel = require("../model/user.model");
 class AuthService {
+  static async refreshToken(token) {
+    const decoded = jwt.verify(token , process.env.REFRESH_TOKEN);
+    
+    const user = await UserModel.findID(decoded.userId);
+    if(!user) {
+      throw new Error ("User not Found");
+    }
+    console.log("Neu goi refresToken hien cai nay len")
+
+    const newAccessToken = jwt.sign(
+      { userId: user.id, email: user.email },
+      process.env.ACCESS_TOKEN,
+      { expiresIn: "1m" },
+    );
+
+
+    return { accessToken: newAccessToken, user };
+  }
   static async register(user) {
     user.password = await bcrypt.hash(user.password, 10);
     const newUser = await userModel.register(user);
@@ -12,11 +30,13 @@ class AuthService {
 
   static async login(credentials) {
     const user = await userModel.findOne(credentials.email);
+    
     if (!user) {
       throw new Error("User not found");
     }
 
     const isMatch = await bcrypt.compare(credentials.password, user.password);
+    
     if (!isMatch) {
       throw new Error("Invalid credentials");
     }
@@ -24,14 +44,15 @@ class AuthService {
     const accessToken = jwt.sign(
       { userId: user.id, email: user.email },
       process.env.ACCESS_TOKEN,
-      { expiresIn: "1h" },
+      { expiresIn: "1m" },
     );
 
-    const refreshToken = jwt.sign(
+    const refreshToken  =  jwt.sign(
       { userId: user.id },
       process.env.REFRESH_TOKEN,
       { expiresIn: "7d" },
-    );
+    ) 
+   
 
     return { user, accessToken, refreshToken };
   }

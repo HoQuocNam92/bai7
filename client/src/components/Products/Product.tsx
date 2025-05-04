@@ -3,7 +3,7 @@ import styles from "./Style.module.scss";
 import { Link } from "react-router-dom";
 import { ProductContext } from "@context/ProductContext";
 import { CartContext } from "@context/CartContext";
-import { toast, ToastContainer } from "react-toastify";
+import { toast, } from "react-toastify";
 import clsx from 'clsx';
 const Product = function product() {
   const { handleAddCart } = useContext(CartContext) as any;
@@ -37,15 +37,7 @@ const Product = function product() {
 
   return (
     <div className={container}>
-      <ToastContainer
-        position="top-left"
-        autoClose={100}
-        closeOnClick={true}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+
       <h2 className={title}>What's Good ?</h2>
       <div className={clsx(card_list,)}>
         {

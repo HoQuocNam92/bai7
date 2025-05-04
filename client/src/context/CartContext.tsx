@@ -1,12 +1,14 @@
-import React, { useContext, useEffect, useState, useCallback } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import axiosInstance from "@utils/axiosInstance";
+
 import { createContext } from "react";
 import { ProductContext } from "./ProductContext";
-import axios from "axios";
 interface CartContextType {
   handleAddCart: (id: number, quantity: number) => void;
   cart: Products[];
   total: number;
   handleDelete: (id: number) => void;
+  getData: () => void;
 }
 
 interface Products {
@@ -30,7 +32,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [total, setTotal] = useState<number>(0);
   const { product } = useContext(ProductContext);
   const handleAddCart = async (id: number, quantity: number) => {
-    console.log("Check id", id)
+
     const data = product.find((item) => item.id === id);
     if (!data) {
       return;
@@ -46,7 +48,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       total: totalForProduct,
     };
     try {
-      await axios.post("http://localhost:8080/api/cart", payload, {
+      await axiosInstance.post("/cart", payload, {
         headers: { Authorization: `Bearer ${token}` },
       });
       await getData();
@@ -60,7 +62,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       return;
     }
     try {
-      await axios.delete(`http://localhost:8080/api/cart/${id}`, {
+      await axiosInstance.delete(`/cart/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       await getData();
@@ -71,7 +73,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   };
   const getData = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/cart", {
+      const response = await axiosInstance.get("/cart", {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (response.status === 200) {
@@ -107,7 +109,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   }, [cart]);
 
   return (
-    <CartContext.Provider value={{ handleAddCart, handleDelete, cart, total }}>
+    <CartContext.Provider value={{ handleAddCart, handleDelete, cart, total, getData }}>
       <ToastContainer autoClose={100} />
 
       {children}

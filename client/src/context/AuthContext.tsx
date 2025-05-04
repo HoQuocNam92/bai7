@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
-
+import axiosInstance from "@utils/axiosInstance";
+import { CartContext } from "./CartContext";
+import { toast } from "react-toastify";
 interface AuthContextType {
   user: any;
   login: (email: string, password: string) => Promise<void>;
@@ -9,7 +9,7 @@ interface AuthContextType {
   logout: () => void;
   userStatus: boolean;
   setUser: any;
-  LoginWithGoogle:any;
+  LoginWithGoogle: any;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -17,6 +17,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<any>(null);
   const [userStatus, setUserStatus] = useState<boolean>(false);
+  const { getData } = useContext(CartContext);
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -26,25 +27,25 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
   const login = async (email: string, password: string) => {
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/auth/login",
+      const response = await axiosInstance.post(
+        "/auth/login",
         {
           email,
           password,
         },
       );
+
       setUserStatus(true);
       setUser(response.data.user);
       localStorage.setItem("accessToken", response.data.accessToken);
       localStorage.setItem("user", JSON.stringify(response.data.user));
+      await getData();
       toast.success("Đăng nhập thành công!");
     } catch (error) {
       toast.error("Sai email hoặc mật khẩu!");
     }
   };
-  const LoginWithGoogle = (user , token)=>{
-    console.log("Check token " , token);
-    console.log("Check user " , user);
+  const LoginWithGoogle = (user, token) => {
     setUserStatus(true);
     setUser(user);
     localStorage.setItem("accessToken", token);
@@ -53,8 +54,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }
   const register = async (name: string, email: string, password: string) => {
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/auth/register",
+      const response = await axiosInstance.post(
+        "/auth/register",
         {
           name,
           email,
@@ -73,6 +74,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.removeItem("user");
     setUser(null);
     setUserStatus(false);
+
+
     toast.success("Đăng xuất thành công!");
   };
 

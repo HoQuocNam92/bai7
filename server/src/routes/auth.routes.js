@@ -5,6 +5,7 @@ const passport = require("passport");
 
 const Reset = require("../middlewares/reset.middleware");
 router.post("/register", AuthoController.register);
+router.post("/refresh-token", AuthoController.refreshToken);
 router.post("/login", AuthoController.login);
 router.post("/forgot-password", AuthoController.forgotPassword);
 router.post("/resetlink/:token", Reset, AuthoController.resetPassword);

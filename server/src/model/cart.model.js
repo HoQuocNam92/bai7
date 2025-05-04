@@ -1,14 +1,12 @@
 const db = require("../config/db");
 
 class CartModel {
-  static async AddCart(product) {
-    const [rows] = await db.query("SELECT * FROM cart WHERE ID = ?", [
-      product.id,
+  static async AddCart(product , id) {
+    const [rows] = await db.query("SELECT * FROM cart WHERE ID = ? and customers_id = ? ", [
+      product.id,id
     ]);
     const row = rows[0];
-    console.log("Check quantity", product.quantity);
     if (rows.length > 0) {
-      console.log("Check product", row);
       const newQuantity = row.quantity + product.quantity;
       const newTotal = newQuantity * row.price;
       const [rows] = await db.query(
@@ -18,9 +16,10 @@ class CartModel {
       return rows;
     } else {
       const [rows] = await db.query(
-        "INSERT INTO cart (id , title, price, image_url, quantity , total) VALUES (?, ?, ?, ?, ?, ?)",
+        "INSERT INTO cart (id ,customers_id , title, price, image_url, quantity , total) VALUES (?, ? ,?, ?, ?, ?, ?)",
         [
           product.id,
+          id,
           product.title,
           product.price,
           product.image_url,
@@ -28,11 +27,13 @@ class CartModel {
           product.total,
         ],
       );
+      console.log("Chekc rows add  cart" , rows)
       return rows;
     }
   }
-  static async GetCart() {
-    const [rows] = await db.query("select * from cart");
+  static async GetCart(id) {
+   
+    const [rows] = await db.query("select * from cart where customers_id = ? " , [id]);
     return rows;
   }
   static async DeleteCart(id) {

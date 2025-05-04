@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/auth"; // Thay bằng API backend của bạn
+const API_URL = "http://localhost:8080/api";
 
 const axiosInstance = axios.create({
   baseURL: API_URL,
@@ -12,19 +12,29 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
-    if (error.config && error.config.status === 401) {
+
+    const accessToken = localStorage.getItem("accessToken");
+    const user = localStorage.getItem("user");
+    if (
+      error.response &&
+      error.response.status === 401 &&
+      !error.config._retry &&
+      user && accessToken
+    ) {
+      error.config._retry = true;
       try {
-        const res = await axiosInstance.post("/refresh");
+        const res = await axiosInstance.post("/auth/refresh-token");
         localStorage.setItem("accessToken", res.data.accessToken);
-        error.config.headers.Authorization = res.data.accessToken;
+        error.config.headers.Authorization = `Bearer ${res.data.accessToken}`;
         return axiosInstance.request(error.config);
       } catch (err) {
         return Promise.reject(err);
       }
     }
+
     return Promise.reject(error);
-  },
-);
+  }
+)
 
 axiosInstance.interceptors.request.use(
   (config) => {
